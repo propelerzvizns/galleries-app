@@ -1,13 +1,8 @@
 <template>
     <div>
-    <unlogged/>
-    <logged/>
-
+        <unlogged/>
+        <logged/>
     </div>
-  
-    
-    
-
 </template>
 
 <script>

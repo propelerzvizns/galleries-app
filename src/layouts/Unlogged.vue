@@ -1,7 +1,11 @@
 <template>
   <div class="unlogged">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <router-link class="navbar-brand mr-auto" to="/">All Galleries</router-link>
+      <ul class="navbar-nav mr-auto">   
+        <li>
+          <router-link class="navbar-brand " to="/">All Galleries</router-link>
+        </li>
+      </ul>
       <ul class="navbar-nav">       
         <li class="nav-item" >
           <router-link class="nav-link" to="/login">Login</router-link> 
