@@ -4,11 +4,11 @@
   <form @submit.prevent>
     <div class="form-group">
       <label for="exampleInputEmail">Email address</label>
-      <input v-model="user.email" type="email" class="form-control col-lg-5 m-auto" id="exampleInputEmail" placeholder="Enter email">
+      <input v-model="credentials.email" type="email" class="form-control col-lg-5 m-auto" id="exampleInputEmail" placeholder="Enter email">
     </div>
     <div class="form-group">
       <label for="exampleInputPassword">Password</label>
-      <input v-model="user.password"  type="password" class="form-control col-lg-5 m-auto" id="exampleInputPassword" placeholder="Password">
+      <input v-model="credentials.password"  type="password" class="form-control col-lg-5 m-auto" id="exampleInputPassword" placeholder="Password">
     </div>
     <button type="submit" class="btn btn-primary" @click="handleSubmit">Login</button>
   </form>
@@ -20,21 +20,21 @@ import {mapActions, mapGetters} from 'vuex';
 export default {
   data(){
     return {
-      user: {
+      credentials: {
         email: '',
         password: ''
       }
     }
   },
   computed: {
-    ...mapGetters(['loggedUser'])
+    ...mapGetters({loggedUser: 'AuthModule/loggedUser'})
   },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions({login: 'AuthModule/login'}),
+
     handleSubmit(){
-      // console.log(this.user);
-      
-      this.login(this.user);
+      this.login(this.credentials);
+      this.$router.push('galleries');
     }
   }
 }

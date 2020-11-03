@@ -1,19 +1,30 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
     <navbar/>
     <router-view class="container"/>
   </div>
 </template>
 <script>
+import { store } from './store/index';
 import Navbar from './layouts/Navbar'
+import { mapGetters, mapActions } from 'vuex';
 export default {
   components: {
     Navbar
+  },
+  computed:{
+    ...mapGetters({isLoggedIn: 'AuthModule/isLoggedIn'}),
+
+  },
+  methods: {
+    ...mapActions({ getLoggedIn: 'AuthModule/getLoggedIn'}),
+
+  },
+  beforeCreate(){
+        // this.getLoggedIn()
+        this.$store.dispatch('AuthModule/getLoggedIn')
   }
+
 }
 </script>
 <style>
