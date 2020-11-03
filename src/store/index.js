@@ -14,9 +14,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    login(state, payload){
-      // const loggedUser = userService.login(payload);
-      state.commit('setLogin',payload)
+    async login(state){
+      const loggedUser = await userService.login();
+      state.commit('setLogin', loggedUser);
       
     }
   },
