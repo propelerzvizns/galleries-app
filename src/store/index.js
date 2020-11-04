@@ -11,7 +11,10 @@ export default new Vuex.Store({
       namespaced:true,
       state: {
         loggedUser: JSON.parse(localStorage.getItem('user')),
-        token: localStorage.getItem('token')
+        token: localStorage.getItem('token'),
+        errors: {
+      
+        }
       },
       mutations: {
         setLogin(state, payload){
@@ -20,18 +23,50 @@ export default new Vuex.Store({
         },
         setIsLoggedIn(state, payload){
           state.loggedUser = payload;
+        },
+        setError(state, payload){
+          console.log('set error', payload);
+        
+          
+
+      
+          
+            state.errors = payload
+            // console.log('erros' ,state.erros);
+          // state.errors.password = payload.password[0]
+          console.log('state error', state.errors);
+
+
         }
 
       },
       actions: {
         async login(state, payload){
           // console.log('login ation', user);
-          const loggedUser = await userService.login(payload);
+          await userService.login(payload).then(response => {
+         console.log('action response', response.data);
+         const loggedUser = response.data.user;
+         localStorage.setItem('token', response.data.token);
+         localStorage.setItem('user', JSON.stringify(response.data.user));
+        //  console.log('then response', response);
+        state.commit('setLogin', loggedUser);
+     }).catch(error => {
+           const realError = error.response.data.errors;
+          // this.errors.push(realError);
+           console.log('catch', error);
+   
+
+          state.commit('setError', error.response.data.errors);
+          console.log('pased pwd', error);
+
+          // return error;
+        
+       });
           
     
-          console.log('login atio, got response', loggedUser);
+          console.log('login atio, got response', payload);
     
-          state.commit('setLogin', loggedUser);
+          
     
           // console.log('commit done', loggedUser);
         },
@@ -53,7 +88,8 @@ export default new Vuex.Store({
       },
       getters: {
         loggedUser: (state) => state.loggedUser,
-        isLoggedIn: (state) => !!state.loggedUser
+        isLoggedIn: (state) => !!state.loggedUser,
+        errors: (state) => state.errors
       }
     }
   }
