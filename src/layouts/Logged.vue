@@ -12,7 +12,7 @@
                 <router-link class="nav-link" to="/my-galleries ">My Galeries</router-link>
             </li>
         </ul>
-        <span>Welcome {{loggedUser.first_name}}</span>
+        <span>Welcome {{ loggedUser.first_name }}</span>
         <ul class="navbar-nav">       
             <li class="nav-item">
                 <router-link class="nav-link" to="/logout">Logout</router-link> 
@@ -33,8 +33,9 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Logged',
 computed:{
-    ...mapGetters({loggedUser: 'AuthModule/loggedUser'})
-}
+    ...mapGetters({ loggedUser: 'AuthModule/loggedUser' })
+},
+
 
 
 }

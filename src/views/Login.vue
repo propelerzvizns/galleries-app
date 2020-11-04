@@ -12,7 +12,7 @@
     </div>
     <button type="submit" class="btn btn-primary" @click="handleSubmit">Login</button>
   </form>
-  {{loggedUser}}
+
   </div>
 </template>
 <script>
@@ -33,8 +33,9 @@ export default {
     ...mapActions({login: 'AuthModule/login'}),
 
     handleSubmit(){
+      console.log(this.credentials);
       this.login(this.credentials);
-      this.$router.push('galleries');
+      this.$router.push('/');
     }
   }
 }

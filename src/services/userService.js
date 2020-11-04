@@ -1,5 +1,6 @@
 import axios from 'axios'
 class UserService {
+   errors= [];
     constructor(){
         
         this.apiClient = axios.create({
@@ -15,18 +16,29 @@ class UserService {
 }
 
     async login(credentials){
-     const response =  await this.apiClient.post('/login', credentials);
-     const loggedUser = response.data.user;
-     localStorage.setItem('token', response.data.token);
-     localStorage.setItem('user', JSON.stringify(response.data.user));
-     return loggedUser;
+   
+     const response =  await this.apiClient.post('/login', credentials).then(response => {
+        //  console.log('response', response);
+         const loggedUser = response.data.user;
+         localStorage.setItem('token', response.data.token);
+         localStorage.setItem('user', JSON.stringify(response.data.user));
+         console.log(loggedUser);
+         return loggedUser;
+     }).catch(error => {
+         const realError = error.response.data.errors;
+        this.errors.push(realError);
+         console.log(this.errors);
+     });
+   
+
+  
     }
     async getLoggedIn(){
-        // console.log('service', token)
+  
         const response = await this.apiClient.get('/user');
         const loggedUser = response.data;
         return loggedUser
-        console.log('service', loggedUser)
+   
 
     }
 }
