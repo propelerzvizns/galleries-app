@@ -15,7 +15,8 @@
         <span>Welcome {{ loggedUser.first_name }}</span>
         <ul class="navbar-nav">       
             <li class="nav-item">
-                <router-link class="nav-link" to="/logout">Logout</router-link> 
+                <!-- <router-link class="nav-link" to="/logout">Logout</router-link>  -->
+                <button @click="handleLogout">Logout</button>
             </li>
         </ul>
       
@@ -25,7 +26,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
@@ -34,7 +35,19 @@ export default {
   name: 'Logged',
 computed:{
     ...mapGetters({ loggedUser: 'AuthModule/loggedUser' })
+    
 },
+methods: {
+    ...mapActions({getLogout: 'AuthModule/getLogout'}),
+   async handleLogout(){
+        // await console.log('action click',localStorage.get('token') );
+        await this.getLogout(localStorage.token)
+            this.$router.push('/login');
+
+
+    }
+    
+}
 
 
 

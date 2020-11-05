@@ -30,6 +30,13 @@ class UserService {
    
 
     }
+    async logout(){
+        console.log('service click');
+        const response = await this.apiClient.post('/logout')
+        console.log('response click', response);
+        
+
+    }
 }
 
 const userService = new UserService();

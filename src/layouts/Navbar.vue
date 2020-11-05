@@ -1,6 +1,6 @@
 <template>
     <div>
-          
+ 
         <logged v-if="isLoggedIn"/>
       
         <unlogged v-else/>
@@ -21,7 +21,8 @@ export default {
       Logged
   },
   computed:{
-      ...mapGetters({isLoggedIn: 'AuthModule/isLoggedIn'})
+      ...mapGetters({isLoggedIn: 'AuthModule/isLoggedIn'}),
+     
   }
 
 
