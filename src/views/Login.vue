@@ -53,7 +53,7 @@ export default {
     ...mapActions({login: 'AuthModule/login'}),
 
     async handleSubmit(){
-
+        this.errors = {};
          await  userService.apiClient.interceptors.response.use(success => success, error =>{
 
           if(error.response.status === 401){

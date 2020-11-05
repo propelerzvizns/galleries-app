@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Galleries from '../views/Galleries.vue'
 import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
 
 Vue.use(VueRouter)
 
@@ -19,6 +20,14 @@ const routes = [
     meta: { isAuthRequired: true },
 
   },
+  {
+    path: '/register',
+    name: 'register-user',
+    component: Register,
+    meta: { isAuthRequired: true },
+
+  },
+
 
 ]
 

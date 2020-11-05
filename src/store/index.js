@@ -20,7 +20,7 @@ export default new Vuex.Store({
           state.loggedUser = payload;
         },
         setIsLoggedIn(state, payload){
-          console.log('set is logged mutacija', payload);
+          // console.log('set is logged mutacija', payload);
           state.loggedUser = payload;
         },
         setLogoutUser(state){
@@ -45,12 +45,20 @@ export default new Vuex.Store({
         },
        async getLogout(state, payload){
          await userService.logout(payload).then(response => {
-          console.log('then token', payload);
+          // console.log('then token', payload);
           localStorage.removeItem('token')
           localStorage.removeItem('user')
           state.commit('setLogoutUser')
           
         })
+        },
+       async getRegister(state, payload){
+              console.log('action register', payload);
+              const response  = await userService.register(payload)
+              localStorage.setItem('token', response.token);
+              localStorage.setItem('user', JSON.stringify(response.user));
+              console.log('action registered user', localStorage);
+              state.commit('setLogin', response.user)
         }
       },
       getters: {

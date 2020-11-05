@@ -37,6 +37,11 @@ class UserService {
         
 
     }
+    async register(credentials){
+        const response = await this.apiClient.post('/register',credentials)
+         const loggedUser = response.data;
+         return loggedUser;
+    }
 }
 
 const userService = new UserService();
