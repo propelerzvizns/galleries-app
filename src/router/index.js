@@ -17,30 +17,7 @@ const routes = [
     name: 'login',
     component: Login,
     meta: { isAuthRequired: true },
-    // beforeEnter: (to, from, next) => {
-    //   // console.log('to', to);
-    //   // console.log('from', from);
-  
-    //   //   console.log('route guard not rquired');
-    //   const isLoggedIn = !!localStorage.getItem('user');
-    //   const hasToken = !!localStorage.getItem('token');
-    //   if(!localStorage.getItem('user')){
-    //     console.log('pass user', !localStorage.getItem('user'));
-    //     next();
-    //   } 
-    //   else if(!localStorage.getItem('token')){
 
-    //     console.log('pass', !localStorage.getItem('token'));
-  
-    //     next();
-    //   }
-    //   else{
-    //     next('/')
-    //   }
-    
-     
- 
-    // }
   },
 
 ]
@@ -58,7 +35,7 @@ router.beforeEach((to, from, next) => {
     next();
     // console.log('not required');
   } 
-  else if (localStorage.getItem('token')) {
+  else if (localStorage.getItem('token') && localStorage.getItem('user')) {
     // console.log('REDIRECTION');
     next('/');
   }
