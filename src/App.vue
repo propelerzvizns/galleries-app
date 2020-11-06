@@ -5,20 +5,15 @@
   </div>
 </template>
 <script>
-import { store } from './store/index';
+
 import Navbar from './layouts/Navbar'
-import { mapGetters, mapActions } from 'vuex';
+
 import userService from './services/userService';
 export default {
   components: {
     Navbar
   },
-  computed:{
-    ...mapGetters({isLoggedIn: 'AuthModule/isLoggedIn'}),
-  },
-  methods: {
-    ...mapActions({ getLoggedIn: 'AuthModule/getLoggedIn'}),
-  },
+
 
 }
 </script>

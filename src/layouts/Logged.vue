@@ -13,10 +13,10 @@
             </li>
         </ul>
         <span>Welcome {{ loggedUser.first_name }}</span>
-        <ul class="navbar-nav">       
-            <li class="nav-item">
+        <ul class="navbar-nav ">       
+            <li class="nav-item ">
                 <!-- <router-link class="nav-link" to="/logout">Logout</router-link>  -->
-                <button @click="handleLogout">Logout</button>
+                <button class="btn btn-primary" @click="handleLogout">Logout</button>
             </li>
         </ul>
       
@@ -55,5 +55,7 @@ methods: {
 
 </script>
 <style scoped>
-
+span {
+    margin-right: 10px;
+}
 </style>

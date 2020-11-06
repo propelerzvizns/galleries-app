@@ -44,7 +44,7 @@ router.beforeEach((to, from, next) => {
     next();
     // console.log('not required');
   } 
-  else if (localStorage.getItem('token')) {
+  else if (localStorage.getItem('token') || localStorage.getItem('user')) {
     // console.log('REDIRECTION');
     next('/');
   }

@@ -12,15 +12,13 @@ export default new Vuex.Store({
       state: {
         loggedUser: JSON.parse(localStorage.getItem('user')),
         token: localStorage.getItem('token'),
-      
+
       },
       mutations: {
         setLogin(state, payload){
-          // console.log('set login mutacija', payload);
           state.loggedUser = payload;
         },
         setIsLoggedIn(state, payload){
-          // console.log('set is logged mutacija', payload);
           state.loggedUser = payload;
         },
         setLogoutUser(state){
@@ -29,12 +27,13 @@ export default new Vuex.Store({
       },
       actions: {
         async login(state, payload){
-         const response = await  userService.login(payload)
-         const loggedUser = response.data.user;
-        //  console.log('actiob',loggedUser)
-              state.commit('setLogin', loggedUser);
-              localStorage.setItem('token', response.data.token);
-              localStorage.setItem('user', JSON.stringify(response.data.user));
+
+          const response = await  userService.login(payload)
+          const loggedUser = response.data.user;
+
+          state.commit('setLogin', loggedUser);
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
         },
 
         async getLoggedIn(state){
@@ -43,28 +42,28 @@ export default new Vuex.Store({
           }
           state.commit('setIsLoggedIn', isLoggedIn);
         },
-       async getLogout(state, payload){
-         await userService.logout(payload).then(response => {
-          // console.log('then token', payload);
-          localStorage.removeItem('token')
-          localStorage.removeItem('user')
-          state.commit('setLogoutUser')
-          
-        })
+        async getLogout(state, payload){
+          await userService.logout(payload).then(response => {
+
+            localStorage.removeItem('token')
+            localStorage.removeItem('user')
+            state.commit('setLogoutUser')
+
+          })
         },
-       async getRegister(state, payload){
-              console.log('action register', payload);
-              const response  = await userService.register(payload)
-              localStorage.setItem('token', response.token);
-              localStorage.setItem('user', JSON.stringify(response.user));
-              console.log('action registered user', localStorage);
-              state.commit('setLogin', response.user)
+
+        async getRegister(state, payload){
+
+          const response  = await userService.register(payload)
+          
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('user', JSON.stringify(response.user));
+          state.commit('setLogin', response.user)
         }
       },
       getters: {
-        loggedUser: (state) => state.loggedUser,
-        isLoggedIn: (state) => !!state.loggedUser,
- 
+      loggedUser: (state) => state.loggedUser,
+      isLoggedIn: (state) => !!state.loggedUser,
       }
     }
   }
