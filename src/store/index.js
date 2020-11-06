@@ -70,12 +70,12 @@ export default new Vuex.Store({
     GalleryModule: {
       namespaced:true,
       state:{
-        galleries: []
+        galleries: [],
+     
       },
       actions:{
        async getGalleries(state){
           const galleries = await galleriesService.getAll();
-        
           state.commit('setGalleries', galleries);
         },
 
@@ -83,12 +83,12 @@ export default new Vuex.Store({
       },
       mutations: {
         setGalleries(state, payload){
-          console.log('mutation',payload);
           state.galleries = payload;
         }
       },
       getters: {
-        galleries: (state) => state.galleries
+        galleries: (state) => state.galleries,
+        images: (state) => state.images
       }
     }
   }
