@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import userService from '../services/userService'
+import galleriesService from '../services/galleriesService'
 
 Vue.use(Vuex)
 
@@ -64,6 +65,30 @@ export default new Vuex.Store({
       getters: {
       loggedUser: (state) => state.loggedUser,
       isLoggedIn: (state) => !!state.loggedUser,
+      }
+    },
+    GalleryModule: {
+      namespaced:true,
+      state:{
+        galleries: []
+      },
+      actions:{
+       async getGalleries(state){
+          const galleries = await galleriesService.getAll();
+        
+          state.commit('setGalleries', galleries);
+        },
+
+        
+      },
+      mutations: {
+        setGalleries(state, payload){
+          console.log('mutation',payload);
+          state.galleries = payload;
+        }
+      },
+      getters: {
+        galleries: (state) => state.galleries
       }
     }
   }

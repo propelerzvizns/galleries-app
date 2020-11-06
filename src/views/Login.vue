@@ -57,7 +57,7 @@ export default {
         await  userService.apiClient.interceptors.response.use(success => success, error =>{
 
           if(error.response.status === 401){
-            console.log('error', localStorage);
+            // console.log('error', localStorage);
             this.message = error.response.data.error;
             return localStorage.removeItem("token")
             this.$router.push('/login');
