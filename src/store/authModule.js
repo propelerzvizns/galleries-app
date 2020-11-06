@@ -1,5 +1,5 @@
 import userService from '../services/userService'
-export default authModule = {
+ const authModule = {
     
         namespaced:true,
         state: {
@@ -20,10 +20,11 @@ export default authModule = {
         },
         actions: {
           async login(state, payload){
-  
-            const response = await  userService.login(payload)
+            console.log('login action')
+            const response = await userService.login(payload)
+            console.log('got response', { response })
             const loggedUser = response.data.user;
-  
+            console.log('got logged user', { loggedUser})
             state.commit('setLogin', loggedUser);
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('user', JSON.stringify(response.data.user));
@@ -60,3 +61,4 @@ export default authModule = {
         }
    
 }
+export default authModule;

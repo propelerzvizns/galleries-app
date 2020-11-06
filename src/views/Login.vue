@@ -31,7 +31,6 @@
 import axios from 'axios'
 import  store from '../store/index'
 import {mapActions, mapGetters} from 'vuex';
-import userService from '../services/userService';
 export default {
   data(){
     return {
@@ -54,23 +53,11 @@ export default {
 
     async handleSubmit(){
         this.errors = {};
-        await  userService.apiClient.interceptors.response.use(success => success, error =>{
-
-          if(error.response.status === 401){
-            // console.log('error', localStorage);
-            this.message = error.response.data.error;
-            return localStorage.removeItem("token")
-            this.$router.push('/login');
-
-          }
-          else if(error.response.status == 422) {
-            this.errors = error.response.data.errors;
-          }
-        });
+        
         this.login(this.credentials).then((response) => {
-        this.$router.push('/');
+          this.$router.push('/');
         }).catch((error) => {
-
+          console.log('CATCH na routu', {error})
           if(error.response.status == 401){
             this.message = error.response.data.error;        
           } else if(error.response.status == 422) {

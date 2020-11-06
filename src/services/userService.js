@@ -1,4 +1,4 @@
-import { RequestHandler } from "./requestHandler";
+import { RequestHandler } from "./RequestHandler";
 class UserService extends RequestHandler{
     async login(credentials){
         

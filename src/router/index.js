@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Galleries from '../views/Galleries.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import Gallery from '../views/Gallery.vue'
+
 
 Vue.use(VueRouter)
 
@@ -17,13 +19,20 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login,
-    meta: { isAuthRequired: true },
+    meta: { isAuthRequired: false },
 
   },
   {
     path: '/register',
     name: 'register-user',
     component: Register,
+    meta: { isAuthRequired: false },
+
+  },
+  {
+    path: '/galleries/:id',
+    name: 'gallery',
+    component: Gallery,
     meta: { isAuthRequired: true },
 
   },
@@ -42,15 +51,17 @@ router.beforeEach((to, from, next) => {
   // next()
   if (!auth) {
     next();
-    // console.log('not required');
+    console.log('not required' , !auth);
+    return;
   } 
-  else if (localStorage.getItem('token') || localStorage.getItem('user')) {
+  
+  if (localStorage.getItem('token')) {
     // console.log('REDIRECTION');
-    next('/');
+    next();
   }
    else {
     // console.log('pass');
-    next();
+    next('/');
   }
 });
 export default router

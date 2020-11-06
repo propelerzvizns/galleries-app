@@ -1,4 +1,6 @@
 import axios from 'axios'
+import router from '../router'
+
 export class RequestHandler {
     constructor(){
         
@@ -12,7 +14,22 @@ export class RequestHandler {
            
             }
             return config;
-        });     
+        });
+        this.apiClient.interceptors.response.use(success => success, error =>{
+            console.log('interceptor error', { error });
+            if(error.response.status === 401 && error.config.url != '/login'){
+                console.log('interceptor error', { error });
+                localStorage.removeItem("token")
+                // redirect to /login
+                // router.push('/login');
+            }
+            else {
+                return Promise.reject(error);
+            }
+            // else if(error.response && error.response.status == 422) {
+            //   this.errors = error.response.data.errors;
+            // }
+          });
     }
 }
 

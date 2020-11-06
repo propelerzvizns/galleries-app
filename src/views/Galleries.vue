@@ -2,17 +2,23 @@
   <div class="galleries">
   
     <h1>galleries</h1>
-    prvu sliku iz liste slika, ime i prezime autora i vreme kreiranja. 
-    U slučaju da nije kreirana nijedna galerija, prikazati odgovarajuću poruku
+
     <div class="list col-sm-12" v-if="galleries.length">
       <div class="card nesto" v-for="gallery in galleries" :key="gallery.id">
-          <img class="card-img-top" src="" alt="Card image cap">
+        <div v-if="gallery.images.length">
+
+          <img class="card-img-top" :src="gallery.images[0].img_url" alt="Card image cap">
+        </div>
+        <div v-else></div>       
+                
         <div class="card-body">
-          <h5 class="card-title">{{gallery.title}}</h5>
+          <h5 class="card-title">
+            <router-link class="nav-link" :to="{ name: 'gallery', params: { id: gallery.id }}">{{gallery.title}}</router-link>
+          </h5>
           <p class="card-text">{{gallery.description}}</p>
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">{{gallery.first_name}} {{gallery.last_name}}</li>
+          <li class="list-group-item">{{gallery.user.first_name}} {{gallery.user.last_name}}</li>
           <li class="list-group-item">{{gallery.created_at}}</li>
           <li class="list-group-item">Vestibulum at eros</li>
         </ul>
