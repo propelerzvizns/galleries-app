@@ -54,10 +54,10 @@ export default {
 
     async handleSubmit(){
         this.errors = {};
-         await  userService.apiClient.interceptors.response.use(success => success, error =>{
+        await  userService.apiClient.interceptors.response.use(success => success, error =>{
 
           if(error.response.status === 401){
-            // console.log('error', localStorage);
+            console.log('error', localStorage);
             this.message = error.response.data.error;
             return localStorage.removeItem("token")
             this.$router.push('/login');
@@ -67,14 +67,15 @@ export default {
             this.errors = error.response.data.errors;
           }
         });
-       this.login(this.credentials).then((response) => {
-         this.$router.push('/');
-      }).catch((error) => {
-        if(error.response.status == 401){
-          this.message = error.response.data.error;        
-        } else if(error.response.status == 422) {
-          this.errors = error.response.data.errors;
-        }
+        this.login(this.credentials).then((response) => {
+        this.$router.push('/');
+        }).catch((error) => {
+
+          if(error.response.status == 401){
+            this.message = error.response.data.error;        
+          } else if(error.response.status == 422) {
+            this.errors = error.response.data.errors;
+          }
 
        });
 
