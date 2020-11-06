@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 import galleriesService from '../services/galleriesService'
 import AuthModule from './authModule'
+import authorService from '../services/authorService';
 
 Vue.use(Vuex)
 
@@ -44,6 +44,27 @@ export default new Vuex.Store({
         galleries: (state) => state.galleries,
         images: (state) => state.images,
         gallery: (state) => state.gallery
+      }
+    },
+    AuthorModule: {
+      namespaced:true,
+      state:{
+        author: null
+      },
+      actions:{
+        async getAuthor(state, payload){
+          const response = await authorService.getAuthor(payload);
+          
+          state.commit('setAuthor', response)
+        },
+      },
+      mutations: {
+        setAuthor(state, payload){
+          state.author = payload;
+        },
+      },
+      getters: {
+        author: (state) => state.author
       }
     }
   }

@@ -20,7 +20,7 @@
 
     <li class="list-group-item">
       
-    <router-link class="nav-link" :to="{ name: 'user', params: { id: gallery.user.id }}">{{gallery.user.first_name}} {{gallery.user.last_name}}</router-link>
+    <router-link class="nav-link" :to="{ name: 'author', params: { id: gallery.user.id }}">{{gallery.user.first_name}} {{gallery.user.last_name}}</router-link>
        </li>
     <li class="list-group-item">{{gallery.created_at}}</li>
     <li class="list-group-item">Vestibulum at eros</li>
