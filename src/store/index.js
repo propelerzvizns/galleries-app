@@ -14,19 +14,28 @@ export default new Vuex.Store({
       namespaced:true,
       state:{
         galleries: [],
-        gallery: null
+        gallery: null,
+        current_page : null, 
+        last_page: null
      
       },
       actions:{
        async getGalleries(state){
-          const galleries = await galleriesService.getAll();
-          state.commit('setGalleries', galleries);
+          const response = await galleriesService.getAll();
+          // console.log(response)
+          state.commit('setGalleries', response.data);
+          state.commit('setCurrentPage', response.current_page)
+          state.commit('setLastPage', response.last_page)
         },
         async getGallery(state, payload){
           const response = await galleriesService.getGallery(payload)
-      
           state.commit('setGallery', response);
-          
+        },
+        async getLoadMore(state){
+          const page = state.current_page
+          console.log('action load more',page)
+          const galleriesLoad = await galleriesService.getAll(page)
+          console.log('action load more', galleriesLoad)
         }
 
         
@@ -38,12 +47,20 @@ export default new Vuex.Store({
         setGallery(state,payload){
           console.log('mutation',payload);
           state.gallery= payload
+        },
+        setCurrentPage(state,payload){
+          state.current_page = payload;
+        },
+        setLastPage(state, payload){
+          state.last_page = payload;
         }
       },
       getters: {
         galleries: (state) => state.galleries,
         images: (state) => state.images,
-        gallery: (state) => state.gallery
+        gallery: (state) => state.gallery,
+        current_page: (state) => state.current_page,
+        last_page: (state) => state.last_page,
       }
     },
     AuthorModule: {

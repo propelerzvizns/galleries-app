@@ -18,7 +18,12 @@
           <p class="card-text">{{gallery.description}}</p>
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">{{gallery.user.first_name}} {{gallery.user.last_name}}</li>
+          <div v-if="gallery.user != null">
+          
+          <li  class="list-group-item">{{gallery.user.first_name}} {{gallery.user.last_name}}</li>
+          </div>
+          <div v-else></div>
+          
           <li class="list-group-item">{{gallery.created_at}}</li>
           <li class="list-group-item">Vestibulum at eros</li>
         </ul>
@@ -32,12 +37,16 @@
     <div v-else>
       <h3>No galleries were created</h3>
     </div>
-    <button>click</button>
+    <!-- <div v-for="gallery in galleries" :key="gallery.id">
+
+    {{JSON.stringify(gallery.user)}}<br/>
+    </div> -->
+    <button @click="handleLaod">Load more</button>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import store from '../store'
 
@@ -53,6 +62,13 @@ export default {
   computed: {
     ...mapGetters({galleries: 'GalleryModule/galleries', images: 'GalleryModule/images'}),
 
+  },
+  methods:{
+    ...mapActions({getLoadMore: 'GalleryModule/getLoadMore'}),
+    handleLaod(){
+      console.log('load more');
+      this.getLoadMore()
+    }
   },
 
   beforeRouteEnter(from, to, next){

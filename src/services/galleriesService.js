@@ -2,8 +2,11 @@
 import { RequestHandler } from "./RequestHandler";
 // import axios from 'axios'
 class GalleriesService extends RequestHandler{
-    async getAll(){
+    async getAll(page){
+        console.log('axios page',page);
+        
         const response = await this.apiClient.get('/galleries');
+        console.log('axios',this.apiClient.get('/galleries'));
         return response.data;
         
     }
@@ -13,6 +16,7 @@ class GalleriesService extends RequestHandler{
         const response = await this.apiClient.get(`/galleries/${id}`);
         return response.data;
     }
+
 }
 const galleriesService = new GalleriesService();
 export default galleriesService;
