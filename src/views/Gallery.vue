@@ -43,12 +43,7 @@ export default {
      ...mapGetters({gallery: 'GalleryModule/gallery'})
    },
   created(){
-    this.getGallery(this.$route.params.id).then(() => {
-      console.log({ gal: this.gallery})
-    })
-     
-    
-    // console.log()
+    this.getGallery(this.$route.params.id)
   }
 }
 </script>

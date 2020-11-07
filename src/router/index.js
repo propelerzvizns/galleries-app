@@ -59,7 +59,7 @@ router.beforeEach((to, from, next) => {
   // next()
   if (!auth) {
     next();
-    console.log('not required' , !auth);
+    // console.log('not required' , !auth);
     return;
   } 
   

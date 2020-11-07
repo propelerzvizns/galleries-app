@@ -40,7 +40,7 @@ computed:{
 methods: {
     ...mapActions({getLogout: 'AuthModule/getLogout'}),
    async handleLogout(){
-        // await console.log('action click',localStorage.get('token') );
+        // console.log('action click',localStorage.get('token') );
         await this.getLogout(localStorage.token)
             this.$router.push('/login');
 

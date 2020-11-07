@@ -34,14 +34,18 @@
       </div>
       
     </div>
-    <div v-else>
+    <div v-else class="alert alert-danger col-lg-5  m-auto" role="alert">
       <h3>No galleries were created</h3>
     </div>
-    <!-- <div v-for="gallery in galleries" :key="gallery.id">
 
-    {{JSON.stringify(gallery.user)}}<br/>
-    </div> -->
-    <button @click="handleLaod">Load more</button>
+   <div v-if="currentPage !== lastPage">
+    <button class="btn btn-primary" @click="handleLaod">Load more</button>
+   </div>
+   <div v-else class="alert alert-danger col-lg-5  m-auto" role="alert">
+     <h5>There is no more galleries to load</h5>
+
+   </div>
+  
   </div>
 </template>
 
@@ -56,18 +60,25 @@ export default {
   name: 'Galleries',
   data(){
     return{
-   
+      loadMoreMsg:'There is no more galleries to load'
     }
   },
   computed: {
-    ...mapGetters({galleries: 'GalleryModule/galleries', images: 'GalleryModule/images'}),
+    ...mapGetters(
+      {
+        galleries: 'GalleryModule/galleries',
+        images: 'GalleryModule/images',
+        currentPage: 'GalleryModule/current_page',
+        lastPage: 'GalleryModule/lastPage'
+      }
+    ),
 
   },
+  
   methods:{
     ...mapActions({getLoadMore: 'GalleryModule/getLoadMore'}),
     handleLaod(){
-      console.log('load more');
-      this.getLoadMore()
+      this.getLoadMore(this.currentPage)
     }
   },
 
