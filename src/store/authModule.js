@@ -26,7 +26,8 @@ import userService from '../services/userService'
             const loggedUser = response.data.user;
             // console.log('got logged user', { loggedUser})
             state.commit('setLogin', loggedUser);
-            localStorage.setItem('token', response.data.token);
+            // console.log('action token'. response.data.token);
+            localStorage.setItem('token', response.data.token.original.access_token);
             localStorage.setItem('user', JSON.stringify(response.data.user));
           },
   

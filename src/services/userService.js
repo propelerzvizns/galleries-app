@@ -1,7 +1,7 @@
 import { RequestHandler } from "./RequestHandler";
 class UserService extends RequestHandler{
     async login(credentials){
-        
+        // console.log(this.apiClient.post('/login', credentials));
      return await this.apiClient.post('/login', credentials)
     }
     async getLoggedIn(){

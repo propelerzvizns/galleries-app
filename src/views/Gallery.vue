@@ -1,15 +1,15 @@
 <template>
-<div>
-        <h1>gallery</h1>
+<div v-if="gallery">
+        <h1>{{gallery.title}}</h1>
 
-  <div class="card nesto" v-if="gallery">
+  <div class="card" >
+    <div v-if="gallery.images.length">
 
-
-    <img class="card-img-top" :src="gallery.images[0].img_url" alt="Card image cap">
- 
-
-
-        
+      <img class="card-img-top" :src="gallery.images[0].img_url" alt="Card image cap">
+    </div>
+    <div v-else>
+      <h3>No picture</h3>
+    </div>
     <div class="card-body">
     <h5 class="card-title">
     <router-link class="nav-link" :to="{ name: 'gallery', params: { id: gallery.id }}">{{gallery.title}}</router-link>

@@ -13,44 +13,34 @@
             </li>
         </ul>
         <span>Welcome {{ loggedUser.first_name }}</span>
-        <ul class="navbar-nav ">       
-            <li class="nav-item ">
-                <!-- <router-link class="nav-link" to="/logout">Logout</router-link>  -->
-                <button class="btn btn-primary" @click="handleLogout">Logout</button>
-            </li>
-        </ul>
-      
+        <input type="text" class="form-control col-sm-2" @input="handleInput" placeholder="Search galleries">
+        <button class="btn btn-primary" @click="handleLogout(event)">Logout</button>
     </nav>
   
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
+
 
 export default {
-  name: 'Logged',
-computed:{
-    ...mapGetters({ loggedUser: 'AuthModule/loggedUser' })
-    
-},
-methods: {
-    ...mapActions({getLogout: 'AuthModule/getLogout'}),
-   async handleLogout(){
-        // console.log('action click',localStorage.get('token') );
-        await this.getLogout(localStorage.token)
-            this.$router.push('/login');
-
-
-    }
-    
-}
-
-
-
+    name: 'Logged',
+    computed:{
+        ...mapGetters({ loggedUser: 'AuthModule/loggedUser'})
+    },
+    methods: {
+        ...mapActions({getLogout: 'AuthModule/getLogout',getGalleries: 'GalleryModule/getGalleries'}),
+    async handleLogout(){
+            await this.getLogout(localStorage.token)
+                this.$router.push('/login');
+        },
+        async handleInput(event){
+            await this.getGalleries(event.target.value)
+        }
+        
+    },
 }
 
 </script>
