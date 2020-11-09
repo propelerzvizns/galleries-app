@@ -1,38 +1,34 @@
 import galleriesService from '../services/galleriesService'
 const galleryModule = {
     namespaced:true,
+
     state:{
       galleries: [],
       gallery: null,
       current_page : null, 
       lastPage: null,
 
+
    
     },
     actions:{
+
      async getGalleries(state, payload){
-      //probaj if string uradi search 
-      //        if number setLOadMore
-      // if(typeof payload !== 'string'){
-      //   var nextPage = payload;
-      // } else{
-        var searchTerm = payload;
-      // }
-      //  console.log('searchTerm', searchTerm);
-      //  console.log('nextPage', nextPage);
-        const response = await galleriesService.getAll(searchTerm);
+
+        const response = await galleriesService.getAll(payload);
         state.commit('setGalleries', response.data);
-        // state.commit('setLoadMoreGalleries', response.data);
         state.commit('setCurrentPage', response.current_page);
         state.commit('setLastPage', response.last_page);
+
       },
       async getGallery(state, payload){
         const response = await galleriesService.getGallery(payload);
         state.commit('setGallery', response)
       },
       async getLoadMore(state, payload){
-        console.log(payload);
-        const page = payload;
+
+          var page = payload;
+
         const response = await galleriesService.getAll(page);
         state.commit('setLoadMoreGalleries', response.data);
         state.commit('setCurrentPage', response.current_page);
@@ -61,9 +57,17 @@ const galleryModule = {
 
       },
       setLoadMoreGalleries(state, payload){
-        console.log(payload);
+         
         payload.forEach(gallery => {
-          state.galleries.push(gallery);
+
+          state.galleries.forEach(stateGallery => {
+            // console.log('state' ,stateGallery.id)
+            if(stateGallery.id !== gallery.id){
+              console.log('gallery', true)
+              // return
+              state.galleries.push(gallery);
+            } 
+          });
         });
         console.log(state.galleries);
       }

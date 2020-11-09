@@ -80,8 +80,11 @@ export default {
   methods:{
   
     ...mapActions({getLoadMore: 'GalleryModule/getLoadMore',}),
-    handleLaod(){
-      this.getLoadMore(this.currentPage)
+   async handleLaod(){
+      var page = this.currentPage;
+      const searchTerm = null;
+      // this.getLoadMore(payload = {page, param2})
+     await this.getLoadMore({page, searchTerm})
     },
     
   },

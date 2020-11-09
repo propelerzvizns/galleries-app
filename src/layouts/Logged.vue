@@ -28,7 +28,10 @@ import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
     name: 'Logged',
     computed:{
-        ...mapGetters({ loggedUser: 'AuthModule/loggedUser'})
+        ...mapGetters({ 
+            loggedUser: 'AuthModule/loggedUser',
+            currentPage: 'GalleryModule/current_page'
+        })
     },
     methods: {
         ...mapActions({getLogout: 'AuthModule/getLogout',getGalleries: 'GalleryModule/getGalleries'}),
@@ -37,7 +40,9 @@ export default {
                 this.$router.push('/login');
         },
         async handleInput(event){
-            await this.getGalleries(event.target.value)
+            const searchTerm = event.target.value
+            const page = null
+            await this.getGalleries({page, searchTerm})
         }
         
     },

@@ -1,21 +1,28 @@
 import { RequestHandler } from "./RequestHandler";
 class GalleriesService extends RequestHandler{
-    async getAll(searchTerm){
-        if(typeof searchTerm === 'undefined'){
-            console.log(true);
-           var searchTerm = ' '
-           var nextPage = 1
-        }if(typeof searchTerm === 'string'){
-            var newSearchTerm = searchTerm
-            console.log('search term',newSearchTerm);
+    async getAll(data){
 
-        }
-        if(typeof searchTerm === 'number'){
+        if(typeof data === 'undefined'){
+            data = {
+                page: 1,
+                searchTerm: ''
+            }
+            var nextPage = data.page
+            var searchTerm = data.searchTerm
 
-            var nextPage = searchTerm +1
-            console.log('next page',nextPage);
+        } else if(typeof data.searchTerm != 'string' || typeof data.searchTerm === 'undefined') {
+            var nextPage = data.page +1
+            var searchTerm = ' '
+        } else{
+            var nextPage = data.page +1
+            console.log(nextPage);
+            var searchTerm = data.searchTerm
+            
         }
-        const response = await this.apiClient.get(`/galleries?page=${nextPage}&title=${newSearchTerm}`)
+        
+        // console.log(data.page);
+
+        const response = await this.apiClient.get(`/galleries?page=${nextPage}&title=${searchTerm}&description=${searchTerm}`)
         return response.data;
     }
     async getGallery(id){
