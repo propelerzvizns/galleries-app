@@ -53,11 +53,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-
 import store from '../store'
-
-
-
 export default {
   name: 'Galleries',
   data(){
@@ -71,26 +67,25 @@ export default {
         galleries: 'GalleryModule/galleries',
         images: 'GalleryModule/images',
         currentPage: 'GalleryModule/current_page',
-        lastPage: 'GalleryModule/lastPage'
+        lastPage: 'GalleryModule/lastPage',
+        searchTerm: 'GalleryModule/searchTerm'
       }
     ),
 
   },
   
   methods:{
-  
     ...mapActions({getLoadMore: 'GalleryModule/getLoadMore',}),
    async handleLaod(){
-      var page = this.currentPage;
-      const searchTerm = null;
-      // this.getLoadMore(payload = {page, param2})
+      var page = this.currentPage + 1;
+      const searchTerm = this.searchTerm;
      await this.getLoadMore({page, searchTerm})
-    },
+    }
     
   },
 
   beforeRouteEnter(from, to, next){
-    store.dispatch('GalleryModule/getGalleries')
+    store.dispatch('GalleryModule/getGalleries', {page: 1, searchTerm: ''})
     next();
   }
 
@@ -106,5 +101,4 @@ export default {
   margin:5px 5px 5px 0;
  width: 355px;
 }
-
 </style>

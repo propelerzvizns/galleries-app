@@ -40,8 +40,8 @@ export default {
                 this.$router.push('/login');
         },
         async handleInput(event){
-            const searchTerm = event.target.value
-            const page = null
+            const searchTerm = event.target.value;
+            const page = 1;
             await this.getGalleries({page, searchTerm})
         }
         
