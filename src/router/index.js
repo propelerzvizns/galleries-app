@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Gallery from '../views/Gallery.vue'
 import Author from '../views/Author.vue'
+import CreateGallery from '../views/CreateGallery.vue'
 
 
 Vue.use(VueRouter)
@@ -41,6 +42,13 @@ const routes = [
     path: '/author/:id',
     name: 'author',
     component: Author,
+    meta: { isAuthRequired: true },
+
+  },
+  {
+    path: '/create',
+    name: 'create',
+    component: CreateGallery,
     meta: { isAuthRequired: true },
 
   },
