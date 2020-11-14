@@ -6,7 +6,7 @@
     <div class="list col-sm-12" v-if="galleries.length">
      
       <div class="card nesto" v-for="gallery in galleries" :key="gallery.id">
-         {{gallery.id}}
+       
         <div v-if="gallery.images.length">
 
           <img class="card-img-top" :src="gallery.images[0].img_url" alt="Card image cap">
