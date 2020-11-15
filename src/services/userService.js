@@ -3,10 +3,12 @@ class UserService extends RequestHandler{
     async login(credentials){
         // console.log(this.apiClient.post('/login', credentials));
      return await this.apiClient.post('/login', credentials)
+    
     }
     async getLoggedIn(){
         const response = await this.apiClient.get('/user');
         const loggedUser = response.data;
+        // console.log('user', loggedUser);
         return loggedUser
     }
     async logout(){

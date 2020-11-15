@@ -14,7 +14,7 @@
         </ul>
         <span>Welcome {{ loggedUser.first_name }}</span>
         <input type="text" class="form-control col-sm-2" @input="handleInput" placeholder="Search galleries">
-        <button class="btn btn-primary" @click="handleLogout(event)">Logout</button>
+        <button class="btn btn-primary logout" @click="handleLogout()">Logout</button>
     </nav>
   
   </div>
@@ -40,6 +40,7 @@ export default {
                 this.$router.push('/login');
         },
         async handleInput(event){
+            console.log('event', event);
             const searchTerm = event.target.value;
             const page = 1;
             await this.getGalleries({page, searchTerm})
@@ -52,5 +53,8 @@ export default {
 <style scoped>
 span {
     margin-right: 10px;
+}
+.logout {
+  margin-left: 5px;  
 }
 </style>

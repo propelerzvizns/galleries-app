@@ -31,6 +31,11 @@ const galleryModule = {
         state.commit('setLoadMoreGalleries', response.data);
         state.commit('setCurrentPage', response.current_page);
       },
+      async getCreateGallery(state, payload){
+        console.log('state', payload);
+        const response = await galleriesService.createGallery(payload);
+        // state.commit('setCreateGallery', response.data);
+      }
     },
     mutations: {
       setGalleries(state, payload){

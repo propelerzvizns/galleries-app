@@ -1,15 +1,17 @@
 <template>
     <div>
         <h1>Create Gallery</h1>
-        <form @submit.prevent>
+        <form @submit.prevent enctype="multipart/form-data">
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" class="form-control col-lg-5  m-auto" id="title" aria-describedby="title" placeholder="Enter title">
+                <input v-model="gallery.title" type="text" class="form-control col-lg-5  m-auto" id="title" aria-describedby="title" placeholder="Enter title">
             </div>
 
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea  type="text" 
+                <textarea  
+                            v-model="gallery.description"
+                            type="text" 
                             class="form-control col-lg-5  m-auto" 
                             id="description" 
                             aria-describedby="description" 
@@ -18,7 +20,7 @@
                 ></textarea>
             </div>
 
-            <div class="form-group col-lg-5 m-auto" v-for="(input, k) in inputs" :key="k">
+            <div class="form-group col-lg-5 m-auto" v-for="(input, k) in gallery.inputs" :key="k">
                 
                 <label for="imageUrl">Picture path{{input.id}}</label>
                 <div class="row  ">
@@ -51,15 +53,15 @@
                         </svg>
                     </button>
                 <input type="text" 
-                        v-model="inputs[k].image_url" 
-                        :class="inputs.length != 1 ? 'col-lg-8 form-control' : 'form-control col-lg-10'" 
+                        v-model="gallery.inputs[k].image_url" 
+                        :class="gallery.inputs.length != 1 ? 'col-lg-8 form-control' : 'form-control col-lg-10'" 
                         id="imageUrl" 
                         aria-describedby="imageUrl" 
                         placeholder="Enter picture path"
                 />
                 <!-- <div class="form-control" v-if="inputs.length != 1"> -->
 
-                    <button v-show="inputs.length != 1" class="btn btn-danger col-lg-2" @click="handleDeleteClick(k)">Delete</button>
+                    <button v-show="gallery.inputs.length != 1" class="btn btn-danger col-lg-2" @click="handleDeleteClick(k)">Delete</button>
               
   
                 </div>
@@ -72,58 +74,58 @@
                 <button class="btn btn-secondary anotherButton" @click="handleAddClick()">Add another URL</button>
             </div>
             <hr>
-            <button type="submit" class="btn btn-success" @click="handleSubmit">Submit</button>
-            <button type="submit" class="btn btn-warning">Cancel</button>
+            
+            <button type="submit" class="btn btn-success submitButon" @click="handleSubmit">Submit</button>
+            <button type="submit" class="btn btn-danger cancelButon">Cancel</button>
+
+          
             </form>
     </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
 export default {
     data(){
         return {
-            inputs: [
-               {
-                   id: 0,
-                    image_url: ''
-                },
+            gallery: {           
+                title: '',
+                description: '',
+                inputs: [
+                {
+                    id: 0,
+                        image_url: ''
+                    },
 
-            ],
+                ],
+            },
             counter: 1,
             move: function(input, delta){
-            var index = this.inputs.indexOf(input);
+            var index = this.gallery.inputs.indexOf(input);
             var newIndex = index + delta;
-            if(newIndex < 0 || newIndex == this.inputs.length)return;
+            if(newIndex < 0 || newIndex == this.gallery.inputs.length)return;
             var indexes = [index, newIndex].sort((a, b) => a - b);
-            this.inputs.splice(indexes[0], 2, this.inputs[indexes[1]], this.inputs[indexes[0]]);
+            this.gallery.inputs.splice(indexes[0], 2, this.gallery.inputs[indexes[1]], this.gallery.inputs[indexes[0]]);
             }
         }
 
     },
     methods: {
-
+        ...mapActions({getCreateGallery: 'GalleryModule/getCreateGallery'}),
         handleAddClick(){
-            
-            this.inputs.push({id: this.counter++,image_url: ''})
-            console.log(this.inputs);
+            this.gallery.inputs.push({id: this.counter++,image_url: ''})
         },
-        handleDeleteClick(k)
-        {
-            // const input = this.inputs.find(input => input.id == k);
-                this.inputs.splice(k, 1);
+        handleDeleteClick(k){
+            this.gallery.inputs.splice(k, 1);
         },
-        
         handleMoveUp(input){
            this.move(input, -1);
-          
-            // console.log(indexes);
         },
         handleMoveDown(input){
            this.move(input, 1);
-          
-            // console.log(indexes);
         },
-        handleSubmit(){
-            console.log(this.inputs);
+        async handleSubmit(){
+            const gallery = this.gallery;
+            await this.getCreateGallery(gallery);
         }
     }
 }
@@ -131,6 +133,12 @@ export default {
 <style scoped>
 .anotherButton{
     margin-top: 10px;
+}
+.submitButon{
+    margin-right: 5px;
+}
+.cancelButon{
+    margin-left: 5px;
 }
 
 </style>

@@ -62,6 +62,8 @@ export default {
             this.message = error.response.data.error;        
           } else if(error.response.status == 422) {
             this.errors = error.response.data.errors;
+          } else {
+            return Promise.reject(error);
           }
 
        });
