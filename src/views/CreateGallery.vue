@@ -6,6 +6,10 @@
                 <label for="title">Title</label>
                 <input v-model="gallery.title" type="text" class="form-control col-lg-5  m-auto" id="title" aria-describedby="title" placeholder="Enter title">
             </div>
+            <div v-if="errors.title" class="alert alert-danger col-lg-5  m-auto" role="alert">
+                <span>{{errors.title[0]}}</span>
+            </div>
+            <div v-else></div>
 
             <div class="form-group">
                 <label for="description">Description</label>
@@ -24,7 +28,7 @@
                 
                 <label for="imageUrl">Picture path{{input.id}}</label>
                 <div class="row  ">
-                                      <button class="btn btn-secondary ml-auto col-lg-1" @click="handleMoveUp(input)">
+                    <button class="btn btn-secondary ml-auto col-lg-1" @click="handleMoveUp(input)">
                         <svg id="i-chevron-top" 
                             xmlns="http://www.w3.org/2000/svg" 
                             viewBox="0 0 32 32" 
@@ -59,15 +63,21 @@
                         aria-describedby="imageUrl" 
                         placeholder="Enter picture path"
                 />
-                <!-- <div class="form-control" v-if="inputs.length != 1"> -->
-
-                    <button v-show="gallery.inputs.length != 1" class="btn btn-danger col-lg-2" @click="handleDeleteClick(k)">Delete</button>
-              
+                <!-- <div v-for="(input, index) in errors.inputs">
+                    {{input[index]}}
+                </div> -->
+                <!-- {{errors.inputs[0].image_url}} -->
+                <div v-if="errors.length" class="alert alert-danger col-lg-5  m-auto" role="alert">
+                    <span>nesto</span>
+                </div>
+                <div v-else></div>
+                <button v-show="gallery.inputs.length != 1" class="btn btn-danger col-lg-2" @click="handleDeleteClick(k)">Delete</button>
+                </div>
+                <div v-if="message.length" class="alert alert-danger col-lg-5  m-auto" role="alert">
+                    <span>{{message}}</span>
+                </div>
+                <div v-else></div>
   
-                </div>
-      
-                <div div-else>
-                </div>
             </div>
             <div>
 
@@ -105,7 +115,9 @@ export default {
             if(newIndex < 0 || newIndex == this.gallery.inputs.length)return;
             var indexes = [index, newIndex].sort((a, b) => a - b);
             this.gallery.inputs.splice(indexes[0], 2, this.gallery.inputs[indexes[1]], this.gallery.inputs[indexes[0]]);
-            }
+            },
+            message: '',
+            errors: {}
         }
 
     },
@@ -125,7 +137,17 @@ export default {
         },
         async handleSubmit(){
             const gallery = this.gallery;
-            await this.getCreateGallery(gallery);
+            await this.getCreateGallery(gallery).then((response) => {
+                this.$router.push('/');
+            }).catch((error) => {
+                if(error.response.status == 422){
+                    this.errors = error.response.data.errors;
+                    this.message = error.response.data.message;  
+                    console.log('log 422', error.response)
+                }  else {
+                return Promise.reject(error);
+            }
+            });
         }
     }
 }

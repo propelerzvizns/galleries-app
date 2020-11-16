@@ -36,8 +36,18 @@ export default {
     methods: {
         ...mapActions({getLogout: 'AuthModule/getLogout',getGalleries: 'GalleryModule/getGalleries'}),
     async handleLogout(){
-            await this.getLogout(localStorage.token)
-                this.$router.push('/login');
+            await this.getLogout(localStorage.token).then((response) =>{
+                this.$router.push('/');
+                }).catch((error) => {
+                    if(error.response.status == 500){
+                console.log('logged CATCH na routu', {error})
+
+                localStorage.removeItem("token")
+                localStorage.removeItem("user")
+                this.$router.push('/');
+            
+          }
+            })
         },
         async handleInput(event){
             console.log('event', event);
