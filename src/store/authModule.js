@@ -20,13 +20,9 @@ import userService from '../services/userService'
         },
         actions: {
           async login(state, payload){
-            // console.log('login action')
             const response = await userService.login(payload)
             const loggedUser = response.data.user;
-            // console.log('got logged user', { loggedUser})
             state.commit('setLogin', loggedUser);
-            // console.log('got response', response.data.token.original.access_token)
-            // console.log('action token'. response.data.token.original.access_token);
             localStorage.setItem('token', response.data.token.original.access_token);
             localStorage.setItem('user', JSON.stringify(response.data.user));
           },

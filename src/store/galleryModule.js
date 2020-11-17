@@ -12,8 +12,8 @@ const galleryModule = {
     actions:{
 
      async getGalleries(state, payload){
+
         const response = await galleriesService.getAll(payload);
-        console.log('search page response', payload);
         state.commit('setSearchTerm', payload.searchTerm)
         state.commit('setGalleries', response.data);
         state.commit('setCurrentPage', response.current_page);
@@ -27,14 +27,11 @@ const galleryModule = {
 
       async getLoadMore(state, payload){
         const response = await galleriesService.getAll(payload);
-        console.log('load more response', payload);
         state.commit('setLoadMoreGalleries', response.data);
         state.commit('setCurrentPage', response.current_page);
       },
       async getCreateGallery(state, payload){
-        console.log('state', payload);
         const response = await galleriesService.createGallery(payload);
-        // state.commit('setCreateGallery', response.data);
       }
     },
     mutations: {
@@ -60,7 +57,8 @@ const galleryModule = {
       },
       setSearchTerm(state, paylaod){
         state.searchTerm = paylaod
-      }
+      },
+
     },
 
     getters: {

@@ -9,14 +9,14 @@
                 <router-link class="nav-link" to="/create">Create new Gallery</router-link>
             </li>
             <li class="nav-item">
-                <router-link class="nav-link" to="/my-galleries ">My Galeries</router-link>
+                <router-link class="nav-link" :to="{ name: 'my-galleries', params: { id: loggedUser.id }} ">My Galeries</router-link>
             </li>
         </ul>
         <span>Welcome {{ loggedUser.first_name }}</span>
         <input type="text" class="form-control col-sm-2" @input="handleInput" placeholder="Search galleries">
         <button class="btn btn-primary logout" @click="handleLogout()">Logout</button>
     </nav>
-  
+
   </div>
 </template>
 
@@ -37,14 +37,18 @@ export default {
         ...mapActions({getLogout: 'AuthModule/getLogout',getGalleries: 'GalleryModule/getGalleries'}),
     async handleLogout(){
             await this.getLogout(localStorage.token).then((response) =>{
-                this.$router.push('/');
+                if(this.$route.fullPath != '/'){
+                    this.$router.push('/');
+                }
                 }).catch((error) => {
                     if(error.response.status == 500){
                 console.log('logged CATCH na routu', {error})
-
                 localStorage.removeItem("token")
                 localStorage.removeItem("user")
-                this.$router.push('/');
+                if(this.$route.fullPath != '/'){
+                    this.$router.push('/');
+                }
+        
             
           }
             })

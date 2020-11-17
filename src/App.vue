@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <navbar/>
-    <router-view class="container"/>
+    <router-view :key="$route.fullPath" class="container"/>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 
 import Navbar from './layouts/Navbar'
 
@@ -13,6 +14,7 @@ export default {
   components: {
     Navbar
   },
+
 
 
 }
