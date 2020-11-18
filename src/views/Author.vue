@@ -50,11 +50,12 @@ export default {
                 searchTerm: 'GalleryModule/searchTerm',
         })
     },
-    beforeCreate(){
-        const id = router.app.$route.params.id;
-        store.dispatch('AuthorModule/getAuthor', router.app.$route.params.id)
+    beforeRouteEnter(from,to,next){
+        const author = JSON.parse(localStorage.getItem('user'));
+        const id = author.id
+        store.dispatch('AuthorModule/getAuthor', id)
         store.dispatch('AuthorModule/getAuthorsGalleries', {page: 1, searchTerm: '', id});
-    
+        next();
 
     }
 }
