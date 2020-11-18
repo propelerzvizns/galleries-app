@@ -47,11 +47,11 @@ export default {
         images: 'GalleryModule/images',
         currentPage: 'GalleryModule/current_page',
         lastPage: 'GalleryModule/lastPage',
-        authorLastPage: 'AuthorModule/lastPage',
-        authorCurrentPage: 'AuthorModule/currentPage',
         searchTerm: 'GalleryModule/searchTerm',
         loggedUser: 'AuthModule/loggedUser',
         authorGalleries: 'AuthorModule/authorGalleries',
+        authorLastPage: 'AuthorModule/lastPage',
+        authorCurrentPage: 'AuthorModule/currentPage',
  
       }
     ),
@@ -96,15 +96,7 @@ export default {
 }
 </script>
 <style scoped>
-.list {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: 125px;
 
-}
-.card{
-  margin:5px 55px 5px 0;
 
-}
 
 </style>

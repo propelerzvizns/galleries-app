@@ -30,7 +30,8 @@ export default {
     computed:{
         ...mapGetters({ 
             loggedUser: 'AuthModule/loggedUser',
-            currentPage: 'GalleryModule/current_page'
+            currentPage: 'GalleryModule/current_page',
+            setLogoutUser: 'AuthModule/setLogoutUser'
         })
     },
     methods: {
@@ -45,6 +46,7 @@ export default {
                         console.log('logged CATCH na routu', {error})
                         localStorage.removeItem("token")
                         localStorage.removeItem("user")
+                        this.setLogoutUser();
                         if(this.$route.fullPath != '/'){
                             this.$router.push('/');
                         }

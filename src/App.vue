@@ -37,4 +37,14 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 125px;
+
+}
+.card{
+  margin:5px 55px 5px 0;
+
+}
 </style>
