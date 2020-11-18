@@ -14,13 +14,14 @@
     <h3>No galleries were created</h3>
   </div>
 
-  <div v-if="currentPage !== lastPage">
-    <button class="btn btn-primary" @click="handleLaod">Load more</button>
-  </div>
-  <div v-else class="alert alert-danger col-lg-5  m-auto" role="alert">
+    <div v-if="currentPage !== lastPage && authorCurrentPage !== authorLastPage" >
+      <button class="btn btn-secondary" @click="handleLaod">Load more</button>
+    </div>
+      <div v-else class="alert alert-danger col-lg-5  m-auto" role="alert">
     <h5>There is no more galleries to load</h5>
-  </div>
 
+  </div>
+    <!-- </div> -->
 </div>
 </template>
 
@@ -46,6 +47,8 @@ export default {
         images: 'GalleryModule/images',
         currentPage: 'GalleryModule/current_page',
         lastPage: 'GalleryModule/lastPage',
+        authorLastPage: 'AuthorModule/lastPage',
+        authorCurrentPage: 'AuthorModule/currentPage',
         searchTerm: 'GalleryModule/searchTerm',
         loggedUser: 'AuthModule/loggedUser',
         authorGalleries: 'AuthorModule/authorGalleries',
@@ -58,12 +61,15 @@ export default {
   methods:{
     ...mapActions({getLoadMore: 'GalleryModule/getLoadMore', getLoadMoreAuthorGalleries: 'AuthorModule/getLoadMoreAuthorGalleries'}),
    async handleLaod(){
-      var page = this.currentPage + 1;
-      const searchTerm = this.searchTerm;
+
       if(this.$route.params.id){
+        var page = this.authorCurrentPage + 1;
+        const searchTerm = this.searchTerm;
         const id = this.$route.params.id
         await this.getLoadMoreAuthorGalleries({page, searchTerm, id})
       } else {
+        var page = this.currentPage + 1;
+        const searchTerm = this.searchTerm;
         await this.getLoadMore({page, searchTerm})
       }
 
@@ -73,15 +79,15 @@ export default {
     
   },
   beforeRouteEnter(from, to, next){
-    if(from.path == '/'){
+    // if(from.path == '/'){
       store.dispatch('GalleryModule/getGalleries', {page: 1, searchTerm: ''});
       next();
-    } else if(from.path == '/my-galleries/2') {
+    // } else if(from.path == '/my-galleries/2') {
       const author = JSON.parse(localStorage.getItem('user'));
       const id = author.id
       store.dispatch('AuthorModule/getAuthorsGalleries', {page: 1, searchTerm: '', id});
       next();
-    }
+    // }
       
   
     
