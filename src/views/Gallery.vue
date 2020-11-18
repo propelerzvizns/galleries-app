@@ -14,44 +14,39 @@ Prikazuje mi se naziv galerije u naslovu, ipod toga ime i prezime autor (klik na
 Nakon toga se prikazuje opis galerije, a posle toga su izlistane sve slike u toj galeriji preko bootstrap carousel komponente. 
 Slike prikazujemo u redolsedu kako su sačuvane. Klik na odredjenu sliku otvara istu u novom tabu. -->
 
-    <div v-if="gallery.images.length">
+    <div v-if="gallery.images.length" >
 
-<!-- <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner" v-for="image in gallery.images" :key="image.id">
-    <div  class="carousel-item active">
-      <img class="d-block w-100" :src="image.img_url" alt="First slide">
-    </div>
-  </div>
-</div> -->
-  <!-- <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100" :src="gallery.images[0].img_url" alt="First slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" :src="gallery.images[1].img_url" alt="Second slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" :src="gallery.images[2].img_url" alt="Third slide">
-    </div>
-  </div>
-</div> -->
-<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100" :src="gallery.images[0].img_url" alt="First slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" :src="gallery.images[1].img_url" alt="Second slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" :src="gallery.images[2].img_url" alt="Third slide">
-    </div>
-  </div>
+  <b-carousel
+      id="carousel-1"
+      v-model="slide"
+      :interval="3500"
+      controls
+      indicators  
+      class='m-auto col-lg-6'
+      style="text-shadow: 1px 1px 2px #333;"
+      @sliding-start="onSlideStart"
+      @sliding-end="onSlideEnd"
+    >
+      <!-- Text slides with image -->
 
+<div v-for="image in gallery.images" :key="image.id">
+
+        <router-link class="nav-link" :to="{ name: 'image', params: { id: image.id }} ">
+      <b-carousel-slide 
+        :img-src="image.img_url"
+        
+      >
+      </b-carousel-slide>
+        </router-link>
 </div>
 
-      <!-- <img class="card-img-top" :src="gallery.images[0].img_url" alt="Card image cap"> -->
+   
+    </b-carousel>
+
+
+
+
+</div>
     </div>
     <div v-else>
       <h3>No picture</h3>
@@ -59,13 +54,25 @@ Slike prikazujemo u redolsedu kako su sačuvane. Klik na odredjenu sliku otvara 
 
  
   
-</div>
+
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
+    data() {
+      return {
+        slide: 0,
+        sliding: null
+      }
+    },
    methods: {
      ...mapActions({getGallery: 'GalleryModule/getGallery'}),
+         onSlideStart(slide) {
+        this.sliding = true
+      },
+      onSlideEnd(slide) {
+        this.sliding = false
+      }
       
    },
    computed:{

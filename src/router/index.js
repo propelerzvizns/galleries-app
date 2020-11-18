@@ -6,6 +6,7 @@ import Register from '../views/Register.vue'
 import Gallery from '../views/Gallery.vue'
 import Author from '../views/Author.vue'
 import CreateGallery from '../views/CreateGallery.vue'
+import Picture from '../views/Picture.vue'
 
 
 Vue.use(VueRouter)
@@ -56,6 +57,13 @@ const routes = [
     path: '/my-galleries/:id',
     name: 'my-galleries',
     component: Galleries,
+    meta: { isAuthRequired: true },
+
+  },
+  {
+    path: '/image/:id',
+    name: 'image',
+    component: Picture,
     meta: { isAuthRequired: true },
 
   },

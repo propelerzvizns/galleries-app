@@ -1,7 +1,6 @@
 import { RequestHandler } from "./RequestHandler";
 class GalleriesService extends RequestHandler{
     async getAll(data){
-
         const response = await this.apiClient.get(`/galleries?page=${data.page}&title=${data.searchTerm}`)
         return response.data;
     }
@@ -11,7 +10,6 @@ class GalleriesService extends RequestHandler{
     }
     async createGallery(gallery){
         const response = await this.apiClient.post('/galleries', gallery)
-        console.log('servis', response);
     }
 }
 const galleriesService = new GalleriesService();
