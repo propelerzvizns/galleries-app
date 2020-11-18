@@ -3,20 +3,24 @@ const authorModule = {
     namespaced:true,
     state:{
       author: null,
-      authorGalleries: {}
+      authorGalleries: {},
+      current_page: null
     },
     actions:{
       async getAuthor(state, payload){
         const response = await authorService.getAuthor(payload);
-        
         state.commit('setAuthor', response)
-
       },
       async getAuthorsGalleries(state, payload){
-        // const author = JSON.parse(payload);
           const response = await authorService.getAuthorsGalleries(payload);
-          state.commit('setAuthorGalleries', response);
+          state.commit('setAuthorGalleries', response.data);
         
+
+      },
+      async getLoadMoreAuthorGalleries(state, payload){
+        const response = await authorService.getAuthorsGalleries(payload);
+        state.commit('setLoadMoreAuthorGalleries', response.data);
+        state.commit('setCurrentPage', response.current_page);
 
       }
     },
@@ -26,7 +30,16 @@ const authorModule = {
       },
       setAuthorGalleries(state, payload){
           state.authorGalleries = payload;
-      }
+      },
+      setLoadMoreAuthorGalleries(state, payload){
+        payload.forEach(gallery => {
+          state.authorGalleries.push(gallery);
+        });
+      },
+      setCurrentPage(state,payload){
+        state.current_page = payload;
+      },
+
     },
     getters: {
       author: (state) => state.author,

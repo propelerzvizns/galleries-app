@@ -46,7 +46,6 @@ const galleryModule = {
       },
 
       setLastPage(state, payload){
-        console.log(payload);
         state.lastPage = payload;
       },
 

@@ -14,7 +14,7 @@
         </ul>
         <span>Welcome {{ loggedUser.first_name }}</span>
         <input type="text" class="form-control col-sm-2" @input="handleInput" placeholder="Search galleries">
-        <button class="btn btn-primary logout" @click="handleLogout()">Logout</button>
+        <button class="btn btn-secondary logout" @click="handleLogout()">Logout</button>
     </nav>
 
   </div>
@@ -42,14 +42,12 @@ export default {
                 }
                 }).catch((error) => {
                     if(error.response.status == 500){
-                console.log('logged CATCH na routu', {error})
-                localStorage.removeItem("token")
-                localStorage.removeItem("user")
-                if(this.$route.fullPath != '/'){
-                    this.$router.push('/');
-                }
-        
-            
+                        console.log('logged CATCH na routu', {error})
+                        localStorage.removeItem("token")
+                        localStorage.removeItem("user")
+                        if(this.$route.fullPath != '/'){
+                            this.$router.push('/');
+                        }
           }
             })
         },

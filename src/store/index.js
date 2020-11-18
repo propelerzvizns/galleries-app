@@ -12,7 +12,6 @@ export default new Vuex.Store({
     AuthModule,
     GalleryModule,
     AuthorModule,
-    
   },
 
 

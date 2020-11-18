@@ -1,8 +1,8 @@
 <template>
     <div>
  
+      {{isLoggedIn}}
         <logged v-if="isLoggedIn"/>
-      
         <unlogged v-else/>
 
     </div>

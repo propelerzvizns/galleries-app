@@ -5,8 +5,8 @@ class AuthorService extends RequestHandler{
         const response = await this.apiClient.get(`/authors/${id}`);
         return response.data;
     }
-    async getAuthorsGalleries(id){
-        const response = await this.apiClient.get(`/authorsGalleries/${ id}`);
+    async getAuthorsGalleries(data){
+        const response = await this.apiClient.get(`/authorsGalleries/${data.id}?page=${data.page}&title=${data.searchTerm}`);
         return response.data;
     }
 }

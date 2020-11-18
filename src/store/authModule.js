@@ -35,7 +35,6 @@ import userService from '../services/userService'
           },
           async getLogout(state, payload){
             await userService.logout(payload).then(response => {
-  
               localStorage.removeItem('token')
               localStorage.removeItem('user')
               state.commit('setLogoutUser')
@@ -44,9 +43,7 @@ import userService from '../services/userService'
           },
   
           async getRegister(state, payload){
-  
             const response  = await userService.register(payload)
-            
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(response.user));
             state.commit('setLogin', response.user)

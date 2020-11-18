@@ -1,8 +1,8 @@
 <template>
 <div class="galleries">
-  <h1>galleries</h1>
+  <h1 class="">galleries</h1>
 
-  <div class="list" v-if="galleries.length">
+  <div class="list " v-if="galleries.length">
       <galleries-card class="card" 
                       v-for="gallery in (this.$route.params.id ?authorGalleries : galleries)" 
                       :key="gallery.id" 
@@ -20,6 +20,7 @@
   <div v-else class="alert alert-danger col-lg-5  m-auto" role="alert">
     <h5>There is no more galleries to load</h5>
   </div>
+
 </div>
 </template>
 
@@ -55,23 +56,35 @@ export default {
   },
   
   methods:{
-    ...mapActions({getLoadMore: 'GalleryModule/getLoadMore'}),
+    ...mapActions({getLoadMore: 'GalleryModule/getLoadMore', getLoadMoreAuthorGalleries: 'AuthorModule/getLoadMoreAuthorGalleries'}),
    async handleLaod(){
       var page = this.currentPage + 1;
       const searchTerm = this.searchTerm;
-     await this.getLoadMore({page, searchTerm})
+      if(this.$route.params.id){
+        const id = this.$route.params.id
+        await this.getLoadMoreAuthorGalleries({page, searchTerm, id})
+      } else {
+        await this.getLoadMore({page, searchTerm})
+      }
+
     },
 
 
     
   },
   beforeRouteEnter(from, to, next){
-    store.dispatch('GalleryModule/getGalleries', {page: 1, searchTerm: ''});
-    if(localStorage.getItem('user')){
+    if(from.path == '/'){
+      store.dispatch('GalleryModule/getGalleries', {page: 1, searchTerm: ''});
+      next();
+    } else if(from.path == '/my-galleries/2') {
       const author = JSON.parse(localStorage.getItem('user'));
-      store.dispatch('AuthorModule/getAuthorsGalleries', author.id);
+      const id = author.id
+      store.dispatch('AuthorModule/getAuthorsGalleries', {page: 1, searchTerm: '', id});
+      next();
     }
-    next();
+      
+  
+    
   }
 
 }
@@ -80,11 +93,12 @@ export default {
 .list {
   display: flex;
   flex-wrap: wrap;
+  margin-left: 125px;
 
 }
 .card{
-  margin:5px 5px 5px 0;
- width: 355px;
+  margin:5px 55px 5px 0;
+
 }
 
 </style>

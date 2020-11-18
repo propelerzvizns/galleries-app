@@ -18,7 +18,7 @@
       </div>
       <div v-else></div>
     </div>
-    <button type="submit" class="btn btn-primary" @click="handleSubmit">Login</button>
+    <button type="submit" class="btn btn-secondary" @click="handleSubmit">Login</button>
     <div v-if="message" class="alert alert-danger col-lg-5  m-auto" role="alert">
       {{message}}
     </div>
