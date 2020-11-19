@@ -36,7 +36,7 @@ const routes = [
     path: '/galleries/:id',
     name: 'gallery',
     component: Gallery,
-    meta: { isAuthRequired: true },
+    meta: { isAuthRequired: false },
 
   },
   {

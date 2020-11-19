@@ -83,7 +83,7 @@
 
                 <button class="btn btn-secondary anotherButton" @click="handleAddClick()">Add another URL</button>
             </div>
-            <hr>
+            <hr class="col-lg-5">
             
             <button type="submit" class="btn btn-success submitButon" @click="handleSubmit">Submit</button>
             <button type="submit" class="btn btn-danger cancelButon">Cancel</button>

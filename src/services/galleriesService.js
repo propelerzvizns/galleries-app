@@ -9,7 +9,8 @@ class GalleriesService extends RequestHandler{
         return response.data;
     }
     async createGallery(gallery){
-        const response = await this.apiClient.post('/galleries', gallery)
+        const response = await this.apiClient.post('/galleries', gallery);
+        
     }
 }
 const galleriesService = new GalleriesService();

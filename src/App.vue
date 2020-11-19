@@ -1,15 +1,12 @@
 <template>
   <div id="app">
-    
     <navbar/>
     <router-view :key="$route.fullPath" class="container"/>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-
 import Navbar from './layouts/Navbar'
-
 import userService from './services/userService';
 export default {
   components: {
@@ -29,12 +26,10 @@ export default {
 #nav {
   padding: 30px;
 }
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 }
@@ -42,10 +37,17 @@ export default {
   display: flex;
   flex-wrap: wrap;
   margin-left: 125px;
-
 }
 .card{
   margin:5px 55px 5px 0;
-
+}
+.container{
+  background-color: #e6e6e6;
+}
+button {
+    border-radius: 0 !important;
+}
+input{
+      border-radius: 0 !important;
 }
 </style>

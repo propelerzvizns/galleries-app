@@ -28,20 +28,40 @@
       </div>
     </b-carousel>
   </div>
+  <div class="comments">
+    <comments-card 
+      v-for="comment in commentsWithAuthor.comments" 
+      :key="comment.id" 
+      :comment="comment" 
+      :author="commentsWithAuthor.author"
+    />
+    <div class="commentForm">
+      <div v-if="isLoggedIn">
+      <h3>Create comment</h3>
+        <div v-if="buttonClicked == false">
+          <form @submit.prevent >
+            <div class="form-group">
+              <textarea v-model="body" class="col-sm-12 col-lg-7" cols="70" rows="4"></textarea>
+              <div v-if="errors.body && body == ''" class="alert alert-danger col-lg-5  m-auto" role="alert">
+                  <span>{{errors.body[0]}}</span>
+              </div>
+              <div v-else></div>
+            </div>
+            <div class="form-group ">
+              <button class="btn btn-secondary col-sm-2 col-lg-1" @click="handleCommentSubmit(gallery)">Submit</button>
+            </div>
+          </form>
+        </div>
+        <div v-else></div>
+      </div>
+      <div v-else></div>
+    </div>
+  </div>
 
-  <comments-card 
-    v-for="comment in commentsWithAuthor.comments" 
-    :key="comment.id" 
-    :comment="comment" 
-    :author="commentsWithAuthor.author"/>
 </div>
 <div v-else>
   <h3>No picture</h3>
 </div>
-
- 
-  
-
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
@@ -51,7 +71,10 @@ export default {
   data() {
       return {
         slide: 0,
-        sliding: null
+        sliding: null,
+        body: '',
+        buttonClicked: false,
+        errors: {}
       }
   },
   components:{
@@ -60,32 +83,49 @@ export default {
   methods: {
     ...mapActions({
       getGallery: 'GalleryModule/getGallery',
-      getCommentsByGalleryId: 'CommentModule/getCommentsByGalleryId'
+      getCommentsByGalleryId: 'CommentModule/getCommentsByGalleryId',
+      getCreateComment: 'CommentModule/getCreateComment',
+      isLoggedIn: 'AuthModule/isLoggedIn'
     }),
-    
     onSlideStart(slide) {
       this.sliding = true
     },
     onSlideEnd(slide) {
       this.sliding = false
+    },
+    async handleCommentSubmit(gallery){
+      const body = this.body;
+      const galleryId = gallery.id; 
+      const params = {body, galleryId};
+   
+      await this.getCreateComment(params).then(success => {
+        this.buttonClicked = true;
+      }).catch((error) => {
+        if(error.response.status == 422)
+        this.errors = error.response.data.errors;
+      });
+      
     }
       
   },
   computed:{
-    ...mapGetters({gallery: 'GalleryModule/gallery', commentsWithAuthor: 'CommentModule/commentsWithAuthor'})
+    ...mapGetters({gallery: 'GalleryModule/gallery', commentsWithAuthor: 'CommentModule/commentsWithAuthor', isLoggedIn: 'AuthModule/isLoggedIn'})
   },
 
   async created(){
-    const author = JSON.parse(localStorage.getItem('user'));
-    const authorId = author.id;
+    // const author = JSON.parse(localStorage.getItem('user'));
+    // const authorId = author.id;
     const galleryId = this.$route.params.id
     await this.getGallery(galleryId);
-    await this.getCommentsByGalleryId(authorId)
-    
-
+    await this.getCommentsByGalleryId(galleryId)
   }
 }
 </script>
 <style scoped>
-
+button{
+  margin-left: 450px;
+}
+.comments {
+  margin-bottom: 100px;
+}
 </style>

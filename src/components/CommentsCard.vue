@@ -8,8 +8,11 @@
       <p>{{comment.body}}</p>
       <footer class="blockquote-footer">Created at <cite title="Source Title">{{comment.created_at}}</cite></footer>
     </blockquote>
-  </div>
+    <div class="col-lg-2 ml-auto">
 
+    <button type="submit" class="btn btn-danger">Delete</button>
+    </div>
+  </div>
 </div>
 </template>
 <script>
@@ -25,4 +28,5 @@ export default {
 .card{
     width: 600px;
 }
+
 </style>
