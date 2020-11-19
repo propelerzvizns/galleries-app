@@ -34,6 +34,7 @@
       :key="comment.id" 
       :comment="comment" 
       :author="commentsWithAuthor.author"
+      @delete-comment="handleDeleteComment"
     />
     <div class="commentForm">
       <div v-if="isLoggedIn">
@@ -85,7 +86,7 @@ export default {
       getGallery: 'GalleryModule/getGallery',
       getCommentsByGalleryId: 'CommentModule/getCommentsByGalleryId',
       getCreateComment: 'CommentModule/getCreateComment',
-      isLoggedIn: 'AuthModule/isLoggedIn'
+      getDeleteMovie: 'CommentModule/getDeleteMovie'
     }),
     onSlideStart(slide) {
       this.sliding = true
@@ -105,6 +106,9 @@ export default {
         this.errors = error.response.data.errors;
       });
       
+    },
+    async handleDeleteComment(id){
+     await this.getDeleteMovie(id);
     }
       
   },
@@ -128,4 +132,5 @@ button{
 .comments {
   margin-bottom: 100px;
 }
+
 </style>

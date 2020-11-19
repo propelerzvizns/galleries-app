@@ -11,6 +11,10 @@ class CommentsService extends RequestHandler{
         return response.data;
        console.log('creted', response.data);
     }
+    async deleteMovie(id){
+       const response = await this.apiClient.delete(`/comments/${id}`);
+       return response.data;
+    }
 }
 
 const commentsService = new CommentsService();

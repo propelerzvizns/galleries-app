@@ -1,8 +1,9 @@
 import commentsService from '../services/commentsService'
 const commentModule = {
     namespaced: true,
-    state:{commentsWithAuthor: {}}
-    ,
+    state:{
+        commentsWithAuthor: {}
+    },
 
     actions: {
        async  getCommentsByGalleryId(state, payload){
@@ -13,6 +14,11 @@ const commentModule = {
             console.log(payload);
             const response = await commentsService.createComment(payload);
             state.commit('setNewComment', response);
+        },
+        async getDeleteMovie(state, payload){
+            const response = await commentsService.deleteMovie(payload);
+            const responseComments = await commentsService.getCommentsByGalleryId(response.gallery_id);
+            state.commit('setCommentsWithAuthor', responseComments);
         }
     },
     mutations: {
