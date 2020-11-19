@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import imagesService from '../services/imagesService'
 import AuthModule from './authModule'
 import GalleryModule from './galleryModule'
 import AuthorModule from './authorModule'
-import imagesService from '../services/imagesService'
+import CommentModule from './commentModule'
+
 
 Vue.use(Vuex)
 
@@ -29,6 +31,7 @@ export default new Vuex.Store({
     AuthModule,
     GalleryModule,
     AuthorModule,
+    CommentModule
   },
 
 

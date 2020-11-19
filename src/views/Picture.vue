@@ -13,7 +13,6 @@ export default {
  ...mapActions({getImage: 'getImage'})
     },
     async created(){
-        console.log(this.$route.params.id);
        await this.getImage(this.$route.params.id);
     }
 }

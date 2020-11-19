@@ -1,22 +1,16 @@
 <template>
 <div v-if="gallery">
-        <h1>Gallery title: {{gallery.title}}</h1>
-    <p class="nav-link"> 
-      Authors name:
-      <router-link  :to="{ name: 'author', params: { id: gallery.user.id }}">
-          <b>{{gallery.user.first_name}} {{gallery.user.last_name}}</b>
-      </router-link> 
-    </p>
-    <p>created at: <b>{{gallery.created_at}}</b></p>
+  <h1>Gallery title: {{gallery.title}}</h1>
+  <p class="nav-link"> 
+    Authors name:
+    <router-link  :to="{ name: 'author', params: { id: gallery.user.id }}">
+      <b>{{gallery.user.first_name}} {{gallery.user.last_name}}</b>
+    </router-link> 
+  </p>
+  <p>created at: <b>{{gallery.created_at}}</b></p>
   <p>Description: <b>{{gallery.description}}</b></p>
-<!-- Kao korisnik mogu da pristupim stranici određene galerije “/galleries/:id”. 
-Prikazuje mi se naziv galerije u naslovu, ipod toga ime i prezime autor (klik na ovo vodi na “/authors/:id”) i vreme kreiranja. 
-Nakon toga se prikazuje opis galerije, a posle toga su izlistane sve slike u toj galeriji preko bootstrap carousel komponente. 
-Slike prikazujemo u redolsedu kako su sačuvane. Klik na odredjenu sliku otvara istu u novom tabu. -->
-
-    <div v-if="gallery.images.length" >
-
-  <b-carousel
+  <div v-if="gallery.images.length" >
+    <b-carousel
       id="carousel-1"
       v-model="slide"
       :interval="3500"
@@ -27,30 +21,23 @@ Slike prikazujemo u redolsedu kako su sačuvane. Klik na odredjenu sliku otvara 
       @sliding-start="onSlideStart"
       @sliding-end="onSlideEnd"
     >
-      <!-- Text slides with image -->
-
-<div v-for="image in gallery.images" :key="image.id">
-
+      <div v-for="image in gallery.images" :key="image.id">
         <router-link class="nav-link" :to="{ name: 'image', params: { id: image.id }} ">
-      <b-carousel-slide 
-        :img-src="image.img_url"
-        
-      >
-      </b-carousel-slide>
+          <b-carousel-slide :img-src="image.img_url"></b-carousel-slide>
         </router-link>
-</div>
-
-   
+      </div>
     </b-carousel>
+  </div>
 
-
-
-
+  <comments-card 
+    v-for="comment in commentsWithAuthor.comments" 
+    :key="comment.id" 
+    :comment="comment" 
+    :author="commentsWithAuthor.author"/>
 </div>
-    </div>
-    <div v-else>
-      <h3>No picture</h3>
-    </div>
+<div v-else>
+  <h3>No picture</h3>
+</div>
 
  
   
@@ -58,28 +45,44 @@ Slike prikazujemo u redolsedu kako su sačuvane. Klik na odredjenu sliku otvara 
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import CommentsCard from '../components/CommentsCard.vue'
+
 export default {
-    data() {
+  data() {
       return {
         slide: 0,
         sliding: null
       }
+  },
+  components:{
+    CommentsCard
+  },
+  methods: {
+    ...mapActions({
+      getGallery: 'GalleryModule/getGallery',
+      getCommentsByGalleryId: 'CommentModule/getCommentsByGalleryId'
+    }),
+    
+    onSlideStart(slide) {
+      this.sliding = true
     },
-   methods: {
-     ...mapActions({getGallery: 'GalleryModule/getGallery'}),
-         onSlideStart(slide) {
-        this.sliding = true
-      },
-      onSlideEnd(slide) {
-        this.sliding = false
-      }
+    onSlideEnd(slide) {
+      this.sliding = false
+    }
       
-   },
-   computed:{
-     ...mapGetters({gallery: 'GalleryModule/gallery'})
-   },
-  created(){
-    this.getGallery(this.$route.params.id)
+  },
+  computed:{
+    ...mapGetters({gallery: 'GalleryModule/gallery', commentsWithAuthor: 'CommentModule/commentsWithAuthor'})
+  },
+
+  async created(){
+    const author = JSON.parse(localStorage.getItem('user'));
+    const authorId = author.id;
+    const galleryId = this.$route.params.id
+    await this.getGallery(galleryId);
+    await this.getCommentsByGalleryId(authorId)
+    
+
   }
 }
 </script>

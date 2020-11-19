@@ -28,6 +28,11 @@ import { mapActions, mapGetters } from 'vuex'
 import GalleriesCard from '../components/GalleriesCard'
 import router from '../router'
 export default {
+    data(){
+        return{
+            author: JSON.parse(localStorage.getItem('user'))
+        }
+    },
     components:{
         GalleriesCard
     },
@@ -42,7 +47,6 @@ export default {
     },
     computed:{
         ...mapGetters({
-                author: 'AuthorModule/author',
                 authorGalleries: 'AuthorModule/authorGalleries',
                 authorLastPage: 'AuthorModule/lastPage',
                 authorCurrentPage: 'AuthorModule/currentPage',
@@ -53,7 +57,6 @@ export default {
     beforeRouteEnter(from,to,next){
         const author = JSON.parse(localStorage.getItem('user'));
         const id = author.id
-        store.dispatch('AuthorModule/getAuthor', id)
         store.dispatch('AuthorModule/getAuthorsGalleries', {page: 1, searchTerm: '', id});
         next();
 
