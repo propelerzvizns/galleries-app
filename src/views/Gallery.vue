@@ -108,7 +108,13 @@ export default {
       
     },
     async handleDeleteComment(id){
-     await this.getDeleteMovie(id);
+      var result = confirm('Are you sure about deleting this comment');
+      if(result) {
+        console.log('passed');
+      await this.getDeleteMovie(id);
+
+      } 
+
     }
       
   },

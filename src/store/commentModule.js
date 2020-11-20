@@ -16,6 +16,7 @@ const commentModule = {
             state.commit('setNewComment', response);
         },
         async getDeleteMovie(state, payload){
+            
             const response = await commentsService.deleteMovie(payload);
             const responseComments = await commentsService.getCommentsByGalleryId(response.gallery_id);
             state.commit('setCommentsWithAuthor', responseComments);
