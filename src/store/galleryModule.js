@@ -21,6 +21,7 @@ const galleryModule = {
 
       },
       async getGallery(state, payload){
+
         const response = await galleriesService.getGallery(payload);
         state.commit('setGallery', response)
       },
@@ -31,7 +32,19 @@ const galleryModule = {
         state.commit('setCurrentPage', response.current_page);
       },
       async getCreateGallery(state, payload){
+
         const response = await galleriesService.createGallery(payload);
+      },
+      getDeleteInput(state, payload){
+        console.log('akcija delete imput na edit index ', payload);
+        state.commit('setDeleteInput', payload);
+      },
+      getAddInput(state, payload){
+        state.commit('setAddInput', payload);
+      },
+      async getEditGallery(state, payload){
+        console.log('edited gallery ', payload);
+        await galleriesService.editGallery(payload);
       }
     },
     mutations: {
@@ -57,6 +70,14 @@ const galleryModule = {
       setSearchTerm(state, paylaod){
         state.searchTerm = paylaod
       },
+      setDeleteInput(state,payload){
+        state.gallery.images.splice(payload, 1);
+      },
+      setAddInput(state, payload){
+ 
+        var counter = state.gallery.images.length +1
+        state.gallery.images.push({id: counter++,image_url: ''})
+      }
 
     },
 

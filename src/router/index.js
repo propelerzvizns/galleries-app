@@ -52,6 +52,7 @@ const routes = [
     component: CreateGallery,
     meta: { isAuthRequired: true },
 
+
   },
   {
     path: '/my-galleries/:id',
@@ -65,6 +66,16 @@ const routes = [
     name: 'image',
     component: Picture,
     meta: { isAuthRequired: true },
+
+  },
+  {
+    path: '/edit-gallery/:id',
+    name: 'edit-gallery',
+    component: CreateGallery,
+  
+    meta: { isAuthRequired: false , isOwner: !!localStorage.getItem('user'), },
+  
+    
 
   },
 

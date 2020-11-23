@@ -78,14 +78,18 @@ export default {
 
     
   },
+  
   beforeRouteEnter(from, to, next){
     // if(from.path == '/'){
       store.dispatch('GalleryModule/getGalleries', {page: 1, searchTerm: ''});
       next();
     // } else if(from.path == '/my-galleries/2') {
       const author = JSON.parse(localStorage.getItem('user'));
-      const id = author.id
-      store.dispatch('AuthorModule/getAuthorsGalleries', {page: 1, searchTerm: '', id});
+      if(author){
+
+        const id = author.id
+        store.dispatch('AuthorModule/getAuthorsGalleries', {page: 1, searchTerm: '', id});}
+
       next();
     // }
       

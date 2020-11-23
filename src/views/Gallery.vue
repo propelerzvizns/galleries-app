@@ -1,6 +1,20 @@
 <template>
 <div v-if="gallery">
-  <h1>Gallery title: {{gallery.title}}</h1>
+  
+<div class="row">
+  <div class="galleryTitle">
+
+      <h1>Gallery title: {{gallery.title}}</h1>
+  </div>
+  <div class="ml-auto">
+
+  <router-link class=" centerRoute btn btn-secondary " :to="{ name: 'edit-gallery', params: { id: gallery.id}} ">Edit gallery</router-link>
+
+  </div>
+</div>
+ 
+  
+
   <p class="nav-link"> 
     Authors name:
     <router-link  :to="{ name: 'author', params: { id: gallery.user.id }}">
@@ -22,7 +36,7 @@
       @sliding-end="onSlideEnd"
     >
       <div v-for="image in gallery.images" :key="image.id">
-        <router-link class="nav-link" :to="{ name: 'image', params: { id: image.id }} ">
+        <router-link :to="{ name: 'image', params: { id: image.id }} ">
           <b-carousel-slide :img-src="image.img_url"></b-carousel-slide>
         </router-link>
       </div>
@@ -119,7 +133,8 @@ export default {
       
   },
   computed:{
-    ...mapGetters({gallery: 'GalleryModule/gallery', commentsWithAuthor: 'CommentModule/commentsWithAuthor', isLoggedIn: 'AuthModule/isLoggedIn'})
+    ...mapGetters({gallery: 'GalleryModule/gallery', commentsWithAuthor: 'CommentModule/commentsWithAuthor', isLoggedIn: 'AuthModule/isLoggedIn'}),
+    
   },
 
   async created(){
@@ -129,6 +144,7 @@ export default {
     await this.getGallery(galleryId);
     await this.getCommentsByGalleryId(galleryId)
   }
+
 }
 </script>
 <style scoped>
@@ -136,7 +152,16 @@ button{
   margin-left: 450px;
 }
 .comments {
-  margin-bottom: 100px;
+  margin-top: 50px;
 }
+.centerRoute {
+  /* margin-right:  10px; */
+  border-radius: 0;
+ 
+}
+.galleryTitle {
+  margin-left: 360px;
+}
+
 
 </style>
