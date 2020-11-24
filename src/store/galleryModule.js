@@ -9,7 +9,8 @@ const galleryModule = {
       current_page : null, 
       lastPage: null,
       searchTerm: '',
-      inputsToDelete: []
+      inputsToDelete: [],
+      inputsToCreate: []
     },
     actions:{
 
@@ -34,7 +35,6 @@ const galleryModule = {
         state.commit('setCurrentPage', response.current_page);
       },
       async getCreateGallery(state, payload){
-
         const response = await galleriesService.createGallery(payload);
       },
       getDeleteInput(state, payload){
@@ -45,8 +45,8 @@ const galleryModule = {
         state.commit('setAddInput', payload);
       },
       async getEditGallery(state, payload){
-        console.log('edited gallery ', payload);
-        await galleriesService.editGallery(payload);
+        const response = await galleriesService.editGallery(payload);
+        state.commit('setGallery', response)
       }
     },
     mutations: {
@@ -75,13 +75,12 @@ const galleryModule = {
       setDeleteInput(state,payload){
         state.gallery.images.splice(payload.k, 1);
         state.inputsToDelete.push(payload.inputToDelete);
-        console.log('input to delete', state.inputsToDelete);
-        // console.log(payload.galleryToDelete);
+
       },
       setAddInput(state, payload){
- 
-        var counter = state.gallery.images.length +1
-        state.gallery.images.push({id: counter++,image_url: ''})
+        var counter = state.gallery.images.length
+        state.gallery.images.push({id: counter++})
+        state.inputsToCreate.push({id: payload})
       }
 
     },

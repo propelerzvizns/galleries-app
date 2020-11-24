@@ -65,9 +65,12 @@ export default {
             getAddInput: 'GalleryModule/getAddInput',
             getEditGallery : 'GalleryModule/getEditGallery'
         }),
-        handleAddClick(){
+        handleAddClick(length){
+            // const lastItem = this.editGallery.images.length 
+            // console.log('handle click',this.editGallery.images[length])
             if(this.$route.params.id){
-            this.getAddInput()
+            this.getAddInput(length)
+            
             } else {
             this.gallery.images.push({id: this.counter++,image_url: ''})
             }
@@ -98,6 +101,8 @@ export default {
             var inputsToDelete = this.inputsToDelete
             await (route ? this.getEditGallery({galleryToEdit, inputsToDelete}) : this.getCreateGallery(gallery)).then((response) => {
                 // this.$router.push('/');
+                (route ? this.$router.push(`/galleries/${route}`) : this.$router.push(`/`))
+                
             }).catch((error) => {
                 if(error.response.status == 422){
                     this.errors = error.response.data.errors;

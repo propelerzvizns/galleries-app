@@ -9,17 +9,12 @@ class GalleriesService extends RequestHandler{
         return response.data;
     }
     async createGallery(payload){
-        console.log('servis', payload);
-        const response = await this.apiClient.post('/galleries', payload);
-        console.log(response);
-        
+        const response = await this.apiClient.post('/galleries', payload);   
     }
     async editGallery(payload) {
-        console.log('servis', payload.galleryToEdit.id);
         const id = payload.galleryToEdit.id
         const response = await this.apiClient.put(`/galleries/${id}`, payload);
-        console.log(response);
-        
+        return response.data.galleryToEdit;   
     }
 }
 const galleriesService = new GalleriesService();

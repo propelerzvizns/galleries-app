@@ -81,7 +81,7 @@
             </div>
             <div>
 
-                <button class="btn btn-secondary anotherButton" @click="handleAddClick()">Add another URL</button>
+                <button class="btn btn-secondary anotherButton" @click="handleAddClick(gallery.images.length)">Add another URL</button>
             </div>
             <hr class="col-lg-5">
             
@@ -104,8 +104,9 @@ export default {
     handleSubmit(){
       this.$emit('handle-submit', this.gallery);
     },
-    handleAddClick(){
-      this.$emit('handle-click');
+    handleAddClick(length){
+        
+      this.$emit('handle-click', length);
     },
     handleDeleteClick(k){
       this.$emit('handle-delete-click', k);
