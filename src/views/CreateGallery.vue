@@ -55,7 +55,7 @@ export default {
 
     },
     computed: {
-        ...mapGetters({loggedUser: 'AuthModule/loggedUser', editGallery: 'GalleryModule/gallery'})
+        ...mapGetters({loggedUser: 'AuthModule/loggedUser', editGallery: 'GalleryModule/gallery', inputsToDelete: 'GalleryModule/inputsToDelete'})
     },
     methods: {
         ...mapActions({
@@ -74,7 +74,8 @@ export default {
         },
         handleDeleteClick(k){
             if(this.$route.params.id){
-                this.getDeleteInput(k)
+                const inputToDelete = this.editGallery.images[k];
+                this.getDeleteInput({k, inputToDelete })
             } else {
                 this.gallery.images.splice(k, 1);
             }
@@ -93,7 +94,9 @@ export default {
 
   
             var route = this.$route.params.id;
-            await (route ? this.getEditGallery(this.editGallery) : this.getCreateGallery(gallery)).then((response) => {
+            var galleryToEdit = this.editGallery;
+            var inputsToDelete = this.inputsToDelete
+            await (route ? this.getEditGallery({galleryToEdit, inputsToDelete}) : this.getCreateGallery(gallery)).then((response) => {
                 // this.$router.push('/');
             }).catch((error) => {
                 if(error.response.status == 422){

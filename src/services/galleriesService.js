@@ -15,8 +15,8 @@ class GalleriesService extends RequestHandler{
         
     }
     async editGallery(payload) {
-        console.log('servis', payload.id);
-        const id = payload.id
+        console.log('servis', payload.galleryToEdit.id);
+        const id = payload.galleryToEdit.id
         const response = await this.apiClient.put(`/galleries/${id}`, payload);
         console.log(response);
         

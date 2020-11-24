@@ -1,3 +1,4 @@
+import { ListGroupPlugin } from 'bootstrap-vue';
 import galleriesService from '../services/galleriesService'
 const galleryModule = {
     namespaced:true,
@@ -7,7 +8,8 @@ const galleryModule = {
       gallery: null,
       current_page : null, 
       lastPage: null,
-      searchTerm: ''
+      searchTerm: '',
+      inputsToDelete: []
     },
     actions:{
 
@@ -71,7 +73,10 @@ const galleryModule = {
         state.searchTerm = paylaod
       },
       setDeleteInput(state,payload){
-        state.gallery.images.splice(payload, 1);
+        state.gallery.images.splice(payload.k, 1);
+        state.inputsToDelete.push(payload.inputToDelete);
+        console.log('input to delete', state.inputsToDelete);
+        // console.log(payload.galleryToDelete);
       },
       setAddInput(state, payload){
  
@@ -87,7 +92,8 @@ const galleryModule = {
       gallery: (state) => state.gallery,
       current_page: (state) => state.current_page,
       lastPage: (state) => state.lastPage,
-      searchTerm: (state) => state.searchTerm
+      searchTerm: (state) => state.searchTerm,
+      inputsToDelete: (state) => state.inputsToDelete
 
     }
 }
