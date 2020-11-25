@@ -71,7 +71,7 @@
                     <span>nesto</span>
                 </div>
                 <div v-else></div>
-                <button v-show="gallery.images.length != 1" class="btn btn-danger col-lg-2" @click="handleDeleteClick(k)">Delete</button>
+                <button v-show="gallery.images.length != 1" class="deleteButton btn btn-danger col-lg-2" @click="handleDeleteClick(k)">Delete</button>
                 </div>
                 <div v-if="message.length" class="alert alert-danger col-lg-5  m-auto" role="alert">
                     <span>{{message}}</span>

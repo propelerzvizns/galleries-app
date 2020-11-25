@@ -11,13 +11,12 @@ const commentModule = {
          state.commit('setCommentsWithAuthor', response);
         },
         async getCreateComment(state,payload){
-            console.log(payload);
             const response = await commentsService.createComment(payload);
             state.commit('setNewComment', response);
         },
-        async getDeleteMovie(state, payload){
+        async getDeleteComment(state, payload){
             
-            const response = await commentsService.deleteMovie(payload);
+            const response = await commentsService.deleteComment(payload);
             const responseComments = await commentsService.getCommentsByGalleryId(response.gallery_id);
             state.commit('setCommentsWithAuthor', responseComments);
         }
@@ -27,7 +26,6 @@ const commentModule = {
             state.commentsWithAuthor = payload;
         },
         setNewComment(state, payload){
-            console.log(state.commentsWithAuthor.comments);
             state.commentsWithAuthor.comments.push(payload)
         }
     },

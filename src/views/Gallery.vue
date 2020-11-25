@@ -2,14 +2,15 @@
 <div v-if="gallery">
   
 <div class="row">
-  <div class="galleryTitle">
-
+  <div class="col-lg-1" v-if="loggedUser.id === gallery.user_id">
+    <button class="btn btn-danger" @click="handleDeleteGallery()">Delete</button>
+  </div>
+  <div class="col-lg-1" v-else></div>
+  <div class="galleryTitle col-lg-9">
       <h1>Gallery title: {{gallery.title}}</h1>
   </div>
-  <div class="ml-auto">
-
-  <router-link class=" centerRoute btn btn-secondary " :to="{ name: 'edit-gallery', params: { id: gallery.id}} ">Edit gallery</router-link>
-
+  <div>
+  <router-link class="btn btn-secondary routeStyle" :to="{ name: 'edit-gallery', params: { id: gallery.id}} ">Edit gallery</router-link>
   </div>
 </div>
  
@@ -98,9 +99,10 @@ export default {
   methods: {
     ...mapActions({
       getGallery: 'GalleryModule/getGallery',
+      getDeleteGallery: 'GalleryModule/getDeleteGallery',
       getCommentsByGalleryId: 'CommentModule/getCommentsByGalleryId',
       getCreateComment: 'CommentModule/getCreateComment',
-      getDeleteMovie: 'CommentModule/getDeleteMovie'
+      getDeleteComment: 'CommentModule/getDeleteComment'
     }),
     onSlideStart(slide) {
       this.sliding = true
@@ -122,18 +124,31 @@ export default {
       
     },
     async handleDeleteComment(id){
-      var result = confirm('Are you sure about deleting this comment');
+      const result = confirm('Are you sure about deleting this comment');
       if(result) {
-        console.log('passed');
-      await this.getDeleteMovie(id);
+      await this.getDeleteComment(id);
 
       } 
 
+    },
+    async handleDeleteGallery(){
+      const result = confirm('Are you sure about deleting this comment');
+      if(result) {
+        await this.getDeleteGallery(this.$route.params.id);
+        this.$router.push('/');
+      }
+      
     }
       
   },
   computed:{
-    ...mapGetters({gallery: 'GalleryModule/gallery', commentsWithAuthor: 'CommentModule/commentsWithAuthor', isLoggedIn: 'AuthModule/isLoggedIn'}),
+    ...mapGetters({
+      gallery: 'GalleryModule/gallery',
+      commentsWithAuthor: 'CommentModule/commentsWithAuthor',
+      isLoggedIn: 'AuthModule/isLoggedIn',
+      loggedUser: 'AuthModule/loggedUser'
+
+    }),
     
   },
 
@@ -148,20 +163,20 @@ export default {
 }
 </script>
 <style scoped>
-button{
+
+.deleteButton{
   margin-left: 450px;
 }
 .comments {
   margin-top: 50px;
 }
-.centerRoute {
-  /* margin-right:  10px; */
+.routeStyle {
+
   border-radius: 0;
  
 }
 .galleryTitle {
-  margin-left: 360px;
+  margin-left: 50px;
+  margin-right: 18px;
 }
-
-
 </style>

@@ -6,12 +6,10 @@ class CommentsService extends RequestHandler{
         return response.data;
     }
     async createComment(params){
-        console.log(params);
         const response = await this.apiClient.post('/comments', params);
         return response.data;
-       console.log('creted', response.data);
     }
-    async deleteMovie(id){
+    async deleteComment(id){
        const response = await this.apiClient.delete(`/comments/${id}`);
        return response.data;
     }
