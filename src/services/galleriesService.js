@@ -18,8 +18,6 @@ class GalleriesService extends RequestHandler{
     }
     async deleteGallery(id){
         const response = await this.apiClient.delete(`/galleries/${id}`)
-        // console.log(response)
-        // return response.data;
     }
 }
 const galleriesService = new GalleriesService();

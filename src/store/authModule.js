@@ -5,7 +5,6 @@ import userService from '../services/userService'
         state: {
           loggedUser: JSON.parse(localStorage.getItem('user')),
           token: localStorage.getItem('token'),
-  
         },
         mutations: {
           setLogin(state, payload){
@@ -38,7 +37,6 @@ import userService from '../services/userService'
               localStorage.removeItem('token')
               localStorage.removeItem('user')
               state.commit('setLogoutUser')
-  
             })
           },
   

@@ -66,11 +66,8 @@ export default {
             getEditGallery : 'GalleryModule/getEditGallery'
         }),
         handleAddClick(length){
-            // const lastItem = this.editGallery.images.length 
-            // console.log('handle click',this.editGallery.images[length])
             if(this.$route.params.id){
             this.getAddInput(length)
-            
             } else {
             this.gallery.images.push({id: this.counter++,image_url: ''})
             }
@@ -100,9 +97,7 @@ export default {
             var galleryToEdit = this.editGallery;
             var inputsToDelete = this.inputsToDelete
             await (route ? this.getEditGallery({galleryToEdit, inputsToDelete}) : this.getCreateGallery(gallery)).then((response) => {
-                // this.$router.push('/');
                 (route ? this.$router.push(`/galleries/${route}`) : this.$router.push(`/`))
-                
             }).catch((error) => {
                 if(error.response.status == 422){
                     this.errors = error.response.data.errors;
@@ -116,12 +111,11 @@ export default {
     },
     async beforeRouteEnter(from, to, next){
         if(from.params.id){
-
             const galleryId = from.params.id
-           await store.dispatch('GalleryModule/getGallery', galleryId);
+            await store.dispatch('GalleryModule/getGallery', galleryId);
             next();
-        }
-        next()
+        } 
+        next();
     }
 }
 </script>

@@ -1,7 +1,6 @@
 <template>
 <div class="galleries">
   <h1 class="">galleries</h1>
-
   <div class="list " v-if="galleries.length">
       <galleries-card class="card" 
                       v-for="gallery in (this.$route.params.id ?authorGalleries : galleries)" 
@@ -13,15 +12,12 @@
   <div v-else class="alert alert-danger col-lg-5  m-auto" role="alert">
     <h3>No galleries were created</h3>
   </div>
-
-    <div v-if="currentPage !== lastPage && authorCurrentPage !== authorLastPage" >
-      <button class="btn btn-secondary" @click="handleLaod">Load more</button>
-    </div>
-      <div v-else class="alert alert-danger col-lg-5  m-auto" role="alert">
-    <h5>There is no more galleries to load</h5>
-
+  <div v-if="(this.$route.params.id ? authorCurrentPage !== authorLastPage : currentPage !== lastPage)" >
+    <button class="btn btn-secondary" @click="handleLaod">Load more</button>
   </div>
-    <!-- </div> -->
+  <div v-else class="alert alert-danger col-lg-5  m-auto" role="alert">
+    <h5>There is no more galleries to load</h5>
+  </div>
 </div>
 </template>
 
@@ -61,7 +57,6 @@ export default {
   methods:{
     ...mapActions({getLoadMore: 'GalleryModule/getLoadMore', getLoadMoreAuthorGalleries: 'AuthorModule/getLoadMoreAuthorGalleries'}),
    async handleLaod(){
-
       if(this.$route.params.id){
         var page = this.authorCurrentPage + 1;
         const searchTerm = this.searchTerm;
@@ -74,27 +69,17 @@ export default {
       }
 
     },
-
-
-    
   },
   
   beforeRouteEnter(from, to, next){
-    // if(from.path == '/'){
       store.dispatch('GalleryModule/getGalleries', {page: 1, searchTerm: ''});
       next();
-    // } else if(from.path == '/my-galleries/2') {
       const author = JSON.parse(localStorage.getItem('user'));
       if(author){
-
         const id = author.id
-        store.dispatch('AuthorModule/getAuthorsGalleries', {page: 1, searchTerm: '', id});}
-
-      next();
-    // }
-      
-  
-    
+        store.dispatch('AuthorModule/getAuthorsGalleries', {page: 1, searchTerm: '', id});
+        next();
+        }
   }
 
 }

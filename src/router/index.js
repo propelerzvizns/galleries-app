@@ -7,11 +7,13 @@ import Gallery from '../views/Gallery.vue'
 import Author from '../views/Author.vue'
 import CreateGallery from '../views/CreateGallery.vue'
 import Picture from '../views/Picture.vue'
-
+// import { mapGetters, store } from 'vuex'
+import store from '@/store';
 
 Vue.use(VueRouter)
 
 const routes = [
+  
   {
     path: '/',
     name: 'galleries-app',
@@ -66,14 +68,25 @@ const routes = [
     name: 'image',
     component: Picture,
     meta: { isAuthRequired: true },
-
   },
   {
     path: '/edit-gallery/:id',
     name: 'edit-gallery',
     component: CreateGallery,
-  
-    meta: { isAuthRequired: false , isOwner: !!localStorage.getItem('user'), },
+    meta: { isAuthRequired: true ,
+      loggedUser: JSON.parse(localStorage.getItem('user'))   
+    },
+    beforeEnter: (to, from, next) => {
+      const id = to.params.id
+      const gallery = store.getters['GalleryModule/gallery'] 
+      if(!gallery){
+        next(`/galleries/${id}`)
+      } else if(to.meta.loggedUser.id === gallery.user_id){
+        next();
+      } else {
+        next('/')
+      }
+    }
   
     
 

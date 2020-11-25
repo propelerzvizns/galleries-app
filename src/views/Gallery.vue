@@ -147,14 +147,11 @@ export default {
       commentsWithAuthor: 'CommentModule/commentsWithAuthor',
       isLoggedIn: 'AuthModule/isLoggedIn',
       loggedUser: 'AuthModule/loggedUser'
-
     }),
     
   },
 
   async created(){
-    // const author = JSON.parse(localStorage.getItem('user'));
-    // const authorId = author.id;
     const galleryId = this.$route.params.id
     await this.getGallery(galleryId);
     await this.getCommentsByGalleryId(galleryId)

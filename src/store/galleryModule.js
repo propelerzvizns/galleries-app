@@ -1,3 +1,4 @@
+import { ListGroupPlugin } from 'bootstrap-vue';
 import galleriesService from '../services/galleriesService'
 const galleryModule = {
     namespaced:true,
@@ -21,13 +22,11 @@ const galleryModule = {
         state.commit('setCurrentPage', response.current_page);
         state.commit('setLastPage', response.last_page);
 
+
       },
       async getGallery(state, payload){
 
         const response = await galleriesService.getGallery(payload);
-        console.log(response);
-        localStorage.setItem('gallery', JSON.stringify(response.user_id));
-
         state.commit('setGallery', response)
       },
 
@@ -40,7 +39,6 @@ const galleryModule = {
         const response = await galleriesService.createGallery(payload);
       },
       getDeleteInput(state, payload){
-        console.log('akcija delete imput na edit index ', payload);
         state.commit('setDeleteInput', payload);
       },
       getAddInput(state, payload){
@@ -89,6 +87,7 @@ const galleryModule = {
       }
 
     },
+
     getters: {
       galleries: (state) => state.galleries,
       images: (state) => state.images,
